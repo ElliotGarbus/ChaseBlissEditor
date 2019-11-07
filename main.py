@@ -6,9 +6,12 @@ from kivy.metrics import Metrics
 import mido
 import mido.backends.rtmidi
 import editor
+from cb_midi import ChaseBlissMidi
 
 
 class ChaseBlissEditorApp(App):
+    cb_midi = ChaseBlissMidi()
+
     def build_config(self, config):
         config.setdefaults('Window', {'width': window_width,
                                       'height': window_height})

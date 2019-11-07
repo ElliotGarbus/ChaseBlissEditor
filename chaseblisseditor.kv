@@ -1,6 +1,7 @@
 # editor screen for Chase Bliss Editor
 #: import CircleKnob circleknob
 #: import cb cb_pedal_definitions
+#: import CC cb_midi.CC
 #: set white [1, 1, 1, 1]
 #: set fs '20dp'
 
@@ -74,23 +75,33 @@
                     text: 'MIDI Out'
                 Spinner:
                     text: 'Select MIDI'
+                    values: app.cb_midi.midi_out_names
+                    on_text: app.cb_midi.set_midi(self.text)
+                    shorten: True
+                    text_size: self.size
+                    valign: 'center'
+                    halign: 'center'
             BoxLayout:
                 Label:
                     text: 'MIDI Ch'
                 Spinner:
                     text: 'Select Ch'
-                    values: [str(x) for x in range(17)]
+                    values: [str(x) for x in range(1, 17)]
+                    on_text: app.cb_midi.midi_channel = int(self.text) - 1
             BoxLayout:
                 Button:
                     text: 'Send PC'
+                    on_release: if pc_input.text: app.cb_midi.pc(int(pc_input.text))
                 TextInput:
-                    hint_text: '0-122'
+                    id: pc_input
+                    hint_text: '0 - 122'
                     font_size: fs
                     multiline: False
                     halign: 'center'
                     padding: ('6dp', (self.height / 2.0) - (self.line_height / 2.0))
             Button:
                 text:'Write to ' + root.pedal
+
         Label:
             size_hint_y: .4
             font_size: '15dp'
@@ -112,6 +123,7 @@
             CircleKnob:
                 text: cb.pedals[root.pedal].cc20
                 disabled: cb.pedals[root.pedal].cc20 != 'Ramp'
+                on_value: app.cb_midi.cc(CC.cc20, self.value)
             BoxLayout:
                 orientation: 'vertical'
                 Label:
@@ -130,22 +142,29 @@
                     size_hint_y: .5
             CircleKnob:
                 text:cb.pedals[root.pedal].cc14
+                on_value: app.cb_midi.cc(CC.cc14, self.value)
             CircleKnob:
                 text: cb.pedals[root.pedal].cc15
+                on_value: app.cb_midi.cc(CC.cc15, self.value)
             CircleKnob:
                 text: cb.pedals[root.pedal].cc16
+                on_value: app.cb_midi.cc(CC.cc16, self.value)
             CircleKnob:
                 text: cb.pedals[root.pedal].cc17
+                on_value: app.cb_midi.cc(CC.cc17, self.value)
             CircleKnob:
                 text: cb.pedals[root.pedal].cc18
+                on_value: app.cb_midi.cc(CC.cc18, self.value)
             CircleKnob:
                 text: cb.pedals[root.pedal].cc19
+                on_value: app.cb_midi.cc(CC.cc19, self.value)
             BoxLayout:
                 orientation: 'vertical'
                 spacing: '4dp'
                 Spinner:
                     text:cb.pedals[root.pedal].cc21[0]
                     values: cb.pedals[root.pedal].cc21
+                    on_text: app.cb_midi.cc(CC.cc21, self.values.index(self.text) + cb.pedals.cc21_offset)
                 TapButton:
                     text: 'Tap'
                     disabled: not cb.pedals[root.pedal].tap
@@ -157,6 +176,7 @@
                     text:cb.pedals[root.pedal].cc22[0]
                     values: cb.pedals[root.pedal].cc22
                     disabled: cb.pedals[root.pedal].cc22_disabled
+                    on_text: app.cb_midi.cc(CC.cc22, self.values.index(self.text) + 1)
                 BoxLayout:
                     disabled: not cb.pedals[root.pedal].tap
                     Label:
@@ -177,6 +197,7 @@
                     text:cb.pedals[root.pedal].cc23[0]
                     values: cb.pedals[root.pedal].cc23
                     disabled: cb.pedals[root.pedal].cc23_disabled
+                    on_text: app.cb_midi.cc(CC.cc23, self.values.index(self.text) + 1)
                 ToggleButton:
                     text: 'Bypass'
         TextInput:

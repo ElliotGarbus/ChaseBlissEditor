@@ -32,27 +32,27 @@ class ChaseBlissMidi:
     def __init__(self):
         self.midi_channel = 'None'  # holds value of midi channel 0 - 15
         self.midi_output = None
-        self.midi_out_names = None  # all of the midi output ports
+        self.midi_out_names = self.get_midi_ports()  # all of the midi output ports
         self.to_cb = None       # the midi output port
         self.midi_xmit_queue = deque()
 
     def get_midi_ports(self):
         try:
-            self.midi_out_names = mido.get_output_names()
+            ports = mido.get_output_names()
         except:  # todo: narrow exception clause
             self.midi_out_names = None
+        return ports
 
     def close_ports(self):
         if self.to_cb:
             self.to_cb.close()
         self.to_cb = None
 
-    def set_midi(self, channel: str, output_port: str):
-        """Set up midi ports and channel"""
+    def set_midi(self, output_port: str):
         self.close_ports()
         try:
             self.to_cb = mido.open_output(output_port)
-            self.midi_channel = int(channel) - 1
+            # self.midi_channel = int(channel) - 1
         except RuntimeError as e:
             Logger.exception(f'APPLICATION: set_midi(): {e}')
             fatal_error_popup = FatalErrorPopup()
@@ -63,6 +63,7 @@ class ChaseBlissMidi:
         if self.to_cb:
             mmsg = mido.Message('program_change', channel=self.midi_channel, program=preset)
             self.midi_xmit_queue.append(mmsg)
+            print(f'pc: {preset}')
 
     def cc(self, cntrl: CC, value: int) -> None:
         if self.to_cb:
