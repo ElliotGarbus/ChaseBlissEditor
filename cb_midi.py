@@ -52,7 +52,6 @@ class ChaseBlissMidi:
         self.close_ports()
         try:
             self.to_cb = mido.open_output(output_port)
-            # self.midi_channel = int(channel) - 1
         except RuntimeError as e:
             Logger.exception(f'APPLICATION: set_midi(): {e}')
             fatal_error_popup = FatalErrorPopup()
