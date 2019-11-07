@@ -1,0 +1,189 @@
+# editor screen for Chase Bliss Editor
+#: import CircleKnob circleknob
+#: import cb cb_pedal_definitions
+#: set white [1, 1, 1, 1]
+#: set fs '20dp'
+
+<CircleKnob>
+    -arc_background: [.3, .3, .3, 1]
+    -arc_foreground: white
+    -text_color: white
+    -font_size: fs
+
+<Label>
+    -font_size: fs
+
+<Button>
+    -font_size: fs
+
+<Spinner>
+    -font_size: fs
+
+<FatalErrorPopup>:
+    title: 'Fatal MIDI Error'
+    size_hint: (.5,.5)
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            id: message
+            text_size: self.size
+            valign: 'middle'
+            halign: 'center'
+            font_size: '20sp'
+        Button:
+            size_hint_y: None
+            height: dp(40)
+            text: 'Exit'
+            on_release: exit(-1)
+
+<Editor>:
+    padding: '10dp'
+    spacing: '10dp'
+    BoxLayout: # Left side Controls
+        size_hint_x: .4
+        padding: '10dp'
+        canvas:
+            Color:
+                rgb: (1, 1, 1)
+            Line:
+                width:dp(2)
+                rounded_rectangle: (*self.pos,self.width + 2,self.height, 2)
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'vertical'
+            BoxLayout:
+                Button:
+                    text: 'Open File'
+                Button:
+                    text: 'Save File'
+            BoxLayout:
+                Label:
+                    text: 'Name:'
+                Label:
+                    text: 'UNTITLED'
+            BoxLayout:
+                Label:
+                    text: 'Device:'
+                Spinner:
+                    id: devices
+                    text: 'Thermae'
+                    values: root.pedal_names
+                    on_text: root.pedal = self.text
+            BoxLayout:
+                Label:
+                    text: 'MIDI Out'
+                Spinner:
+                    text: 'Select MIDI'
+            BoxLayout:
+                Label:
+                    text: 'MIDI Ch'
+                Spinner:
+                    text: 'Select Ch'
+                    values: [str(x) for x in range(17)]
+            BoxLayout:
+                Button:
+                    text: 'Send PC'
+                TextInput:
+                    hint_text: '0-122'
+                    font_size: fs
+                    multiline: False
+                    halign: 'center'
+                    padding: ('6dp', (self.height / 2.0) - (self.line_height / 2.0))
+            Button:
+                text:'Write to ' + root.pedal
+        Label:
+            size_hint_y: .4
+            font_size: '15dp'
+            text: 'Directions go here'
+
+    BoxLayout: # Right Side Controls
+        orientation: 'vertical'
+        padding: '10dp'
+        canvas:
+            Color:
+                rgb: (1, 1, 1)
+            Line:
+                width:dp(2)
+                rounded_rectangle: (*self.pos,self.width + 2,self.height, 2)
+        GridLayout:
+            cols: 3
+            rows: 4
+            spacing: '7dp'
+            CircleKnob:
+                text: cb.pedals[root.pedal].cc20
+                disabled: cb.pedals[root.pedal].cc20 != 'Ramp'
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    size_hint_y: .5
+                Button:
+                    text:'Initialize Patch'
+                Label:
+                    size_hint_y: .5
+            BoxLayout:
+                orientation: 'vertical'
+                Label:
+                    size_hint_y: .5
+                Button:
+                    text:'Send to ' + root.pedal
+                Label:
+                    size_hint_y: .5
+            CircleKnob:
+                text:cb.pedals[root.pedal].cc14
+            CircleKnob:
+                text: cb.pedals[root.pedal].cc15
+            CircleKnob:
+                text: cb.pedals[root.pedal].cc16
+            CircleKnob:
+                text: cb.pedals[root.pedal].cc17
+            CircleKnob:
+                text: cb.pedals[root.pedal].cc18
+            CircleKnob:
+                text: cb.pedals[root.pedal].cc19
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: '4dp'
+                Spinner:
+                    text:cb.pedals[root.pedal].cc21[0]
+                    values: cb.pedals[root.pedal].cc21
+                TapButton:
+                    text: 'Tap'
+                    disabled: not cb.pedals[root.pedal].tap
+                    on_press: self.process_tap()
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: '4dp'
+                Spinner:
+                    text:cb.pedals[root.pedal].cc22[0]
+                    values: cb.pedals[root.pedal].cc22
+                    disabled: cb.pedals[root.pedal].cc22_disabled
+                BoxLayout:
+                    disabled: not cb.pedals[root.pedal].tap
+                    Label:
+                        text: 'BPM:'
+                    TapTextInput:
+                        id: bpm_text
+                        hint_text: '50-240'
+                        multiline: False
+                        padding: ('6dp', (self.height / 2.0) - (self.line_height / 2.0))
+                        halign: 'center'
+                        font_size: fs
+                        on_text_validate: self.create_tap()
+
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: '4dp'
+                Spinner:
+                    text:cb.pedals[root.pedal].cc23[0]
+                    values: cb.pedals[root.pedal].cc23
+                    disabled: cb.pedals[root.pedal].cc23_disabled
+                ToggleButton:
+                    text: 'Bypass'
+        TextInput:
+            size_hint_y: .4
+            hint_text: 'Patch Notes, include dip switch settings and other notes'
+
+Editor:
+
+
+
