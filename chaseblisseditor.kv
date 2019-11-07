@@ -199,7 +199,10 @@
                     disabled: cb.pedals[root.pedal].cc23_disabled
                     on_text: app.cb_midi.cc(CC.cc23, self.values.index(self.text) + 1)
                 ToggleButton:
-                    text: 'Bypass'
+                    text: 'Bypass' if self.state == 'normal' else 'Bypassed'
+                    on_state:
+                        if self.state == 'normal': app.cb_midi.cc(CC.bypass, 127)
+                        if self.state =='down': app.cb_midi.cc(CC.bypass, 0)
         TextInput:
             size_hint_y: .4
             hint_text: 'Patch Notes, include dip switch settings and other notes'
