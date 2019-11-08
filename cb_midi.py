@@ -80,11 +80,11 @@ class ChaseBlissMidi:
             if not self.midi_xmit_queue[0].type == 'control_change':  # not knob data...
                 t = self.midi_xmit_queue.popleft()
             else:
-                print(f'Length of the xmit queue:{len(self.midi_xmit_queue)}')
+                # print(f'Length of the xmit queue:{len(self.midi_xmit_queue)}')
                 control = self.midi_xmit_queue[0].control
                 while (self.midi_xmit_queue and self.midi_xmit_queue[0].type == 'control_change' and
                        self.midi_xmit_queue[0].control == control):
                     # print(f'poping knob data: {self.midi_xmit_queue[0]}')
                     t = self.midi_xmit_queue.popleft()
-            print(f'xmit: {t}')
+            # print(f'xmit: {t}')
             self.to_cb.send(t)
