@@ -30,7 +30,7 @@ class FatalErrorPopup(Popup):
 
 class ChaseBlissMidi:
     def __init__(self):
-        self.midi_channel = 'None'  # holds value of midi channel 0 - 15
+        self.midi_channel = 1  # holds value of midi channel 0 - 15
         self.midi_output = None
         self.midi_out_names = self.get_midi_ports()  # all of the midi output ports
         self.to_cb = None       # the midi output port
@@ -69,14 +69,23 @@ class ChaseBlissMidi:
             mmsg = mido.Message('control_change', channel=self.midi_channel, control=cntrl.value, value=value)
             self.midi_xmit_queue.append(mmsg)
 
+    def tap(self) -> None:  # Tap bypasses the xmit queue to provide finer gain cotrol of tempo
+        if self.to_cb:
+            mmsg = mido.Message('control_change', channel=self.midi_channel, control=CC.tap.value, value=127)
+            self.to_cb.send(mmsg)
+            print('tap')  # ********************************************
+
     def xmit_midi_callback(self, dt):
         """Called by the clock function at a schedule interval to xmit MIDI messages"""
         if self.midi_xmit_queue:
-            # print(f'Length of the xmit queue:{len(self.midi_xmit_queue)}')
-            control = self.midi_xmit_queue[0].control
-            while (self.midi_xmit_queue and self.midi_xmit_queue[0].type == 'control_change' and
-                   self.midi_xmit_queue[0].control == control):
-                # print(f'poping knob data: {self.midi_xmit_queue[0]}')
+            if not self.midi_xmit_queue[0].type == 'control_change':  # not knob data...
                 t = self.midi_xmit_queue.popleft()
-            # print(f'xmit: {t}')
+            else:
+                print(f'Length of the xmit queue:{len(self.midi_xmit_queue)}')
+                control = self.midi_xmit_queue[0].control
+                while (self.midi_xmit_queue and self.midi_xmit_queue[0].type == 'control_change' and
+                       self.midi_xmit_queue[0].control == control):
+                    # print(f'poping knob data: {self.midi_xmit_queue[0]}')
+                    t = self.midi_xmit_queue.popleft()
+            print(f'xmit: {t}')
             self.to_cb.send(t)

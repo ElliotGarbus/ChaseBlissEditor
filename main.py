@@ -3,6 +3,7 @@ from kivy.app import App
 from kivy.core.window import Window
 from kivy.utils import platform
 from kivy.metrics import Metrics
+from kivy.clock import Clock
 import mido
 import mido.backends.rtmidi
 import editor
@@ -54,6 +55,7 @@ class ChaseBlissEditorApp(App):
         Window.size = (int(width), int(height))
         Window.top = int(float(config.getdefault('Window', 'top', window_top)))
         Window.left = int(float(config.getdefault('Window', 'left', window_left)))
+        Clock.schedule_interval(self.cb_midi.xmit_midi_callback, .150)
 
     def on_stop(self):
         self.config.write()

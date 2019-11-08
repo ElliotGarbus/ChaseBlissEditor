@@ -72,7 +72,7 @@
                     on_text: root.pedal = self.text
             BoxLayout:
                 Label:
-                    text: 'MIDI Out'
+                    text: 'MIDI Out:'
                 Spinner:
                     text: 'Select MIDI'
                     values: app.cb_midi.midi_out_names
@@ -83,17 +83,19 @@
                     halign: 'center'
             BoxLayout:
                 Label:
-                    text: 'MIDI Ch'
+                    text: 'MIDI Ch:'
                 Spinner:
-                    text: 'Select Ch'
+                    text: '2'
                     values: [str(x) for x in range(1, 17)]
                     on_text: app.cb_midi.midi_channel = int(self.text) - 1
             BoxLayout:
                 Button:
                     text: 'Send PC'
                     on_release: if pc_input.text: app.cb_midi.pc(int(pc_input.text))
-                TextInput:
+                IntegerInput:
                     id: pc_input
+                    min:0
+                    max:122
                     hint_text: '0 - 122'
                     font_size: fs
                     multiline: False
@@ -101,7 +103,6 @@
                     padding: ('6dp', (self.height / 2.0) - (self.line_height / 2.0))
             Button:
                 text:'Write to ' + root.pedal
-
         Label:
             size_hint_y: .4
             font_size: '15dp'
@@ -162,24 +163,32 @@
                 orientation: 'vertical'
                 spacing: '4dp'
                 Spinner:
+                    pressed: False
                     text:cb.pedals[root.pedal].cc21[0]
                     values: cb.pedals[root.pedal].cc21
-                    on_text: app.cb_midi.cc(CC.cc21, self.values.index(self.text) + cb.pedals[root.pedal].cc21_offset)
+                    on_press: self.pressed = True
+                    on_text:
+                        if self.pressed: app.cb_midi.cc(CC.cc21, self.values.index(self.text) + cb.pedals[root.pedal].cc21_offset)
+                        self.pressed = False
                 Button:
                     text: 'Tap'
                     disabled: not cb.pedals[root.pedal].tap
                     on_press:
-                        app.cb_midi.cc(CC.tap, 127)
+                        app.cb_midi.tap()
                         bpm_input.text = ''
 
             BoxLayout:
                 orientation: 'vertical'
                 spacing: '4dp'
                 Spinner:
+                    pressed: False
                     text:cb.pedals[root.pedal].cc22[0]
                     values: cb.pedals[root.pedal].cc22
                     disabled: cb.pedals[root.pedal].cc22_disabled
-                    on_text: app.cb_midi.cc(CC.cc22, self.values.index(self.text) + 1)
+                    on_press: self.pressed = True
+                    on_text:
+                        if self.pressed:app.cb_midi.cc(CC.cc22, self.values.index(self.text) + 1)
+                        self.pressed = False
                 BoxLayout:
                     disabled: not cb.pedals[root.pedal].tap
                     Label:
@@ -191,16 +200,20 @@
                         padding: ('6dp', (self.height / 2.0) - (self.line_height / 2.0))
                         halign: 'center'
                         font_size: fs
-                        on_text_validate: self.create_tap(int(self.text))
+
 
             BoxLayout:
                 orientation: 'vertical'
                 spacing: '4dp'
                 Spinner:
+                    pressed: False
                     text:cb.pedals[root.pedal].cc23[0]
                     values: cb.pedals[root.pedal].cc23
                     disabled: cb.pedals[root.pedal].cc23_disabled
-                    on_text: app.cb_midi.cc(CC.cc23, self.values.index(self.text) + 1)
+                    on_press: self.pressed = True
+                    on_text:
+                        if self.pressed:app.cb_midi.cc(CC.cc23, self.values.index(self.text) + 1)
+                        self.pressed = False
                 ToggleButton:
                     text: 'Bypass' if self.state == 'normal' else 'Bypassed'
                     on_state:
