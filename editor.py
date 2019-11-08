@@ -27,6 +27,8 @@ class TapTextInput(TextInput):
 
     def insert_text(self, substring, from_undo=False):
         s = substring if substring.isdigit() else ''
+        if len(self.text) == 3 and s.isdigit():
+            self.text = self.text[1:3]
         return super().insert_text(s, from_undo=from_undo)
 
     def on_text_validate(self):
