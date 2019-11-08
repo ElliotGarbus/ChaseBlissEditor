@@ -37,7 +37,43 @@
             text: 'Exit'
             on_release: exit(-1)
 
-<Editor>:
+<ScreenTap@Screen>
+    BoxLayout:
+        Button:
+            text: 'Tap'
+            on_press:
+                app.cb_midi.tap()
+                bpm_input.text = ''
+        BoxLayout:
+            Label:
+                text: 'BPM:'
+            TapTextInput:
+                id: bpm_input
+                hint_text: '50 - 240'
+                multiline: False
+                padding: ('6dp', (self.height / 2.0) - (self.line_height / 2.0))
+                halign: 'center'
+                font_size: fs
+        ToggleButton:
+            text: 'Bypass' if self.state == 'normal' else 'Bypassed'
+            on_state:
+                if self.state == 'normal': app.cb_midi.cc(CC.bypass, 127)
+                if self.state =='down': app.cb_midi.cc(CC.bypass, 0)
+
+<ScreenChannelSelect@Screen>
+    text: 'initial'
+    BoxLayout:
+        Spinner:
+            text: 'Channels'
+        Label:
+            text: root.text
+        ToggleButton:
+            text: 'Bypass' if self.state == 'normal' else 'Bypassed'
+            on_state:
+                if self.state == 'normal': app.cb_midi.cc(CC.bypass, 127)
+                if self.state =='down': app.cb_midi.cc(CC.bypass, 0)
+
+Editor:
     padding: '10dp'
     spacing: '10dp'
     BoxLayout: # Left side Controls
@@ -69,7 +105,10 @@
                     id: devices
                     text: 'Thermae'
                     values: root.pedal_names
-                    on_text: root.pedal = self.text
+                    on_text:
+                        root.pedal = self.text
+                        if cb.pedals[root.pedal].tap: sm.current = 'tap_bpm'
+                        if not cb.pedals[root.pedal].tap: sm.current = 'channel_select'
             BoxLayout:
                 Label:
                     text: 'MIDI Out:'
@@ -188,35 +227,17 @@
                         if self.pressed:app.cb_midi.cc(CC.cc23, self.values.index(self.text) + 1)
                         self.pressed = False
             BoxLayout:
-
-                Button:
-                    text: 'Tap'
-                    disabled: not cb.pedals[root.pedal].tap
-                    on_press:
-                        app.cb_midi.tap()
-                        bpm_input.text = ''
-                BoxLayout:
-                    disabled: not cb.pedals[root.pedal].tap
-                    Label:
-                        text: 'BPM:'
-                    TapTextInput:
-                        id: bpm_input
-                        hint_text: '50 - 240'
-                        multiline: False
-                        padding: ('6dp', (self.height / 2.0) - (self.line_height / 2.0))
-                        halign: 'center'
-                        font_size: fs
-
-                ToggleButton:
-                    text: 'Bypass' if self.state == 'normal' else 'Bypassed'
-                    on_state:
-                        if self.state == 'normal': app.cb_midi.cc(CC.bypass, 127)
-                        if self.state =='down': app.cb_midi.cc(CC.bypass, 0)
+                ScreenManager:
+                    id: sm
+                    ScreenTap:
+                        name: 'tap_bpm'
+                    ScreenChannelSelect:
+                        name:'channel_select'
+                        text: cb.pedals[root.pedal].name
         TextInput:
             size_hint_y: .5
             hint_text: 'Patch Notes, include dip switch settings and other notes'
 
-Editor:
 
 
 

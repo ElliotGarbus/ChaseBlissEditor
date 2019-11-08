@@ -65,7 +65,7 @@ gravitas = Pedal(name='Gravitas',
                  cc22_disabled=True, cc23_disabled=True, cc21=time_division,
                  cc22=('NA',), cc23=('NA',), tap=True)
 
-generation_loss = Pedal(name='Gen. Loss',
+generation_loss = Pedal(name='Generation Loss',
                         cc14='Wow', cc15='Wet', cc16='HP',
                         cc17='Flutter', cc18='Gen', cc19='LP')
 
