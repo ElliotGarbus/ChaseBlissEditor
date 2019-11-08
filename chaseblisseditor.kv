@@ -92,10 +92,8 @@
                 Button:
                     text: 'Send PC'
                     on_release: if pc_input.text: app.cb_midi.pc(int(pc_input.text))
-                IntegerInput:
+                ProgramChangeInput:
                     id: pc_input
-                    min:0
-                    max:122
                     hint_text: '0 - 122'
                     font_size: fs
                     multiline: False

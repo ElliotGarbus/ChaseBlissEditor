@@ -73,7 +73,6 @@ class ChaseBlissMidi:
         if self.to_cb:
             mmsg = mido.Message('control_change', channel=self.midi_channel, control=CC.tap.value, value=127)
             self.to_cb.send(mmsg)
-            print('tap')  # ********************************************
 
     def xmit_midi_callback(self, dt):
         """Called by the clock function at a schedule interval to xmit MIDI messages"""

@@ -19,13 +19,11 @@ class TapTextInput(TextInput):
 
     def create_tap(self, _):
         tap_time = 60.0/int(self.text)
-        print(tap_time)
         t1 = t0 = time()
         self.app.cb_midi.tap()
         while(t1 - t0) < tap_time:
             t1 = time()
         self.app.cb_midi.tap()
-        print(f'tap time: {tap_time}, measure time {t1-t0}')
 
     def insert_text(self, substring, from_undo=False):
         s = substring if substring.isdigit() else ''
@@ -40,17 +38,12 @@ class TapTextInput(TextInput):
         return super().on_text_validate()
 
 
-class IntegerInput(TextInput):
-    min = NumericProperty()
-    max = NumericProperty()
-
+class ProgramChangeInput(TextInput):
     def insert_text(self, substring, from_undo=False):
         s = substring if substring.isdigit() else ''
+        if len(self.text) == 3 and s.isdigit():
+            self.text = self.text[1:3]
+        if int(self.text + s) > 122:
+            s = ''
         return super().insert_text(s, from_undo=from_undo)
 
-    def on_text_validate(self):
-        if int(self.text) < self.min:
-            self.text = str(self.min)
-        if int(self.text) > self.max:
-            self.text = str(self.max)
-        return super().on_text_validate()
