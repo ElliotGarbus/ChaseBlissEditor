@@ -8,7 +8,7 @@ from enum import Enum
 from collections import deque
 
 
-class CC(Enum):  # tod0: Update the CC types for CB pedals.
+class CC(Enum):
     cc14 = 14
     cc15 = 15
     cc16 = 16

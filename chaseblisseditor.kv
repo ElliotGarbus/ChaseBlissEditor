@@ -117,7 +117,7 @@
                 rounded_rectangle: (*self.pos,self.width + 2,self.height, 2)
         GridLayout:
             cols: 3
-            rows: 4
+            rows: 3
             spacing: '7dp'
             CircleKnob:
                 text: cb.pedals[root.pedal].cc20
@@ -157,9 +157,10 @@
             CircleKnob:
                 text: cb.pedals[root.pedal].cc19
                 on_value: app.cb_midi.cc(CC.cc19, self.value)
-            BoxLayout:
-                orientation: 'vertical'
-                spacing: '4dp'
+        BoxLayout:
+            size_hint_y: .25
+            orientation: 'vertical'
+            BoxLayout:  # 3 switches
                 Spinner:
                     pressed: False
                     text:cb.pedals[root.pedal].cc21[0]
@@ -168,16 +169,6 @@
                     on_text:
                         if self.pressed: app.cb_midi.cc(CC.cc21, self.values.index(self.text) + cb.pedals[root.pedal].cc21_offset)
                         self.pressed = False
-                Button:
-                    text: 'Tap'
-                    disabled: not cb.pedals[root.pedal].tap
-                    on_press:
-                        app.cb_midi.tap()
-                        bpm_input.text = ''
-
-            BoxLayout:
-                orientation: 'vertical'
-                spacing: '4dp'
                 Spinner:
                     pressed: False
                     text:cb.pedals[root.pedal].cc22[0]
@@ -187,6 +178,23 @@
                     on_text:
                         if self.pressed:app.cb_midi.cc(CC.cc22, self.values.index(self.text) + 1)
                         self.pressed = False
+                Spinner:
+                    pressed: False
+                    text:cb.pedals[root.pedal].cc23[0]
+                    values: cb.pedals[root.pedal].cc23
+                    disabled: cb.pedals[root.pedal].cc23_disabled
+                    on_press: self.pressed = True
+                    on_text:
+                        if self.pressed:app.cb_midi.cc(CC.cc23, self.values.index(self.text) + 1)
+                        self.pressed = False
+            BoxLayout:
+
+                Button:
+                    text: 'Tap'
+                    disabled: not cb.pedals[root.pedal].tap
+                    on_press:
+                        app.cb_midi.tap()
+                        bpm_input.text = ''
                 BoxLayout:
                     disabled: not cb.pedals[root.pedal].tap
                     Label:
@@ -199,26 +207,13 @@
                         halign: 'center'
                         font_size: fs
 
-
-            BoxLayout:
-                orientation: 'vertical'
-                spacing: '4dp'
-                Spinner:
-                    pressed: False
-                    text:cb.pedals[root.pedal].cc23[0]
-                    values: cb.pedals[root.pedal].cc23
-                    disabled: cb.pedals[root.pedal].cc23_disabled
-                    on_press: self.pressed = True
-                    on_text:
-                        if self.pressed:app.cb_midi.cc(CC.cc23, self.values.index(self.text) + 1)
-                        self.pressed = False
                 ToggleButton:
                     text: 'Bypass' if self.state == 'normal' else 'Bypassed'
                     on_state:
                         if self.state == 'normal': app.cb_midi.cc(CC.bypass, 127)
                         if self.state =='down': app.cb_midi.cc(CC.bypass, 0)
         TextInput:
-            size_hint_y: .4
+            size_hint_y: .5
             hint_text: 'Patch Notes, include dip switch settings and other notes'
 
 Editor:
