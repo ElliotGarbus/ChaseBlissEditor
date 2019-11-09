@@ -81,7 +81,7 @@ class CircleKnob(BoxLayout):
     def on_touch_up(self, touch):
         if touch.is_mouse_scrolling and touch.grab_current is self and self.disabled is False:
             # sorted(min, val, max)[1] works to clamp val to floor or ceiling
-            self.value = (sorted((0, self.value + self._scroll_direction[touch.button],
+            self.value = (sorted((0, self.value + self._scroll_direction.get(touch.button,0),
                                   len(self.values) - 1))[1])
             # self.mouse_set_value += 1
             self.mouse_set_value = self.value

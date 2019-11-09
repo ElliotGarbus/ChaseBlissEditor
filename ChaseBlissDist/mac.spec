@@ -4,14 +4,14 @@ import os
 
 spec_root = os.path.abspath(SPECPATH)
 block_cipher = None
-app_name = 'Chase Bliss Editor'
+app_name = 'ChaseBlissEditor'
 mac_icon = ''
 
 
 a = Analysis(['../main.py'],
              pathex=[spec_root],
              binaries=[],
-             datas=[('../*.kv', '.')],
+             datas=[('../*.kv', '.'), ('../*.png', '.')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
