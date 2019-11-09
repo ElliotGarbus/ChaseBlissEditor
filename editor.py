@@ -11,6 +11,35 @@ class Editor(BoxLayout):
     pedal_names = ListProperty([k for k in cb.pedals.keys()])
     pedal = StringProperty('Thermae')
 
+    def __init__(self, **kwargs):
+        self.app = App.get_running_app()
+        super().__init__(**kwargs)
+
+    def initialize_patch(self):
+        p = self.app.root.ids
+        p.cc14.knob_value = 0
+        p.cc15.knob_value = 0
+        p.cc16.knob_value = 0
+        p.cc17.knob_value = 0
+        p.cc18.knob_value = 0
+        p.cc19.knob_value = 0
+
+        if cb.pedals[self.pedal].cc20 != 'None':
+            p.cc20.knob_value = 0
+
+        p.cc21.text = cb.pedals[self.pedal].cc21[0]
+        if not cb.pedals[self.pedal].cc22_disabled:
+             p.cc22.text = cb.pedals[self.pedal].cc22[0]   
+        if not cb.pedals[self.pedal].cc23_disabled:
+             p.cc23.text = cb.pedals[self.pedal].cc23[0]
+
+        if not cb.pedals[self.pedal].tap:
+            p.sm.get_screen('channel_select').ids.left_stomp.state = 'normal'
+            p.sm.get_screen('channel_select').ids.right_stomp.state = 'normal'
+
+
+
+
 
 class TapTextInput(TextInput):
     def __init__(self, **kwargs):

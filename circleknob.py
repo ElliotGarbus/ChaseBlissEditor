@@ -94,6 +94,13 @@ class CircleKnob(BoxLayout):
     def set_knob(self, _, value):
         self.value = value
 
+    @property
+    def knob_value(self):
+        return self.value
+
+    @knob_value.setter
+    def knob_value(self, v):
+        self.value = v
 
 if __name__ == '__main__':
     kv_test = '''
