@@ -61,10 +61,15 @@
                 if self.state =='down': app.cb_midi.cc(CC.bypass, 0)
 
 <ScreenChannelSelect@Screen>
+    select_values: ['initial']
     text: 'initial'
     BoxLayout:
         Spinner:
-            text: 'Channels'
+            text: root.select_values[0] if root.select_values else 'None'
+            values: root.select_values if root.select_values else 'None'
+            on_text:
+                if root.select_values: app.cb_midi.cc(CC.channel_select, (127, 85, 45, 0)[root.select_values.index(self.text)])
+
         Label:
             text: root.text
         ToggleButton:
@@ -204,28 +209,22 @@ Editor:
                     pressed: False
                     text:cb.pedals[root.pedal].cc21[0]
                     values: cb.pedals[root.pedal].cc21
-                    on_press: self.pressed = True
                     on_text:
-                        if self.pressed: app.cb_midi.cc(CC.cc21, self.values.index(self.text) + cb.pedals[root.pedal].cc21_offset)
-                        self.pressed = False
+                        app.cb_midi.cc(CC.cc21, cb.pedals[root.pedal].cc21.index(self.text) + cb.pedals[root.pedal].cc21_offset)
                 Spinner:
                     pressed: False
                     text:cb.pedals[root.pedal].cc22[0]
                     values: cb.pedals[root.pedal].cc22
                     disabled: cb.pedals[root.pedal].cc22_disabled
-                    on_press: self.pressed = True
                     on_text:
-                        if self.pressed:app.cb_midi.cc(CC.cc22, self.values.index(self.text) + 1)
-                        self.pressed = False
+                        app.cb_midi.cc(CC.cc22, cb.pedals[root.pedal].cc22.index(self.text) + 1)
                 Spinner:
                     pressed: False
                     text:cb.pedals[root.pedal].cc23[0]
                     values: cb.pedals[root.pedal].cc23
                     disabled: cb.pedals[root.pedal].cc23_disabled
-                    on_press: self.pressed = True
                     on_text:
-                        if self.pressed:app.cb_midi.cc(CC.cc23, self.values.index(self.text) + 1)
-                        self.pressed = False
+                        app.cb_midi.cc(CC.cc23, cb.pedals[root.pedal].cc23.index(self.text) + 1)
             BoxLayout:
                 ScreenManager:
                     id: sm
@@ -234,6 +233,7 @@ Editor:
                     ScreenChannelSelect:
                         name:'channel_select'
                         text: cb.pedals[root.pedal].name
+                        select_values: cb.pedals[root.pedal].channel_select if cb.pedals[root.pedal].channel_select else 'None'
         TextInput:
             size_hint_y: .5
             hint_text: 'Patch Notes, include dip switch settings and other notes'
