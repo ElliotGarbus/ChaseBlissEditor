@@ -19,7 +19,8 @@ class Pedal:
     cc22: Sequence[str] = ('Left', 'Center', 'Right')
     cc23: Sequence[str] = ('Left', 'Center', 'Right')
     tap: bool = False
-    channel_select: Sequence[str] = ('None',)
+    left_channel: str = 'None'
+    right_channel: str = 'None'
 
 
 total_recall_time_division = ('Qtr', 'Dotted 8th', '8th Triplet', '8th', '8th Sextolets', '16th')
@@ -28,12 +29,12 @@ time_division = ('Whole', 'Half', 'Qtr Triplets', 'Qtr', '8th', '16th')
 mood = Pedal(name='Mood',
              cc14='Gain', cc15='Freq', cc16='Volume',
              cc17='Bass', cc18='Mids', cc19='LPF',
-             channel_select=('Blood & Drolo', 'Blood', 'Drolo', 'Off'))
+             left_channel='Blood', right_channel= 'Drolo')
 
 dark_world = Pedal(name='Dark World',
                    cc14='Decay', cc15='Mix', cc16='Dwell',
                    cc17='Modify', cc18='Tone', cc19='Pre-Delay',
-                   channel_select=('D & W', 'D', 'W', 'Off'))
+                   left_channel= 'D', right_channel= 'W')
 
 thermae = Pedal(name='Thermae',
                 cc14='Mix', cc15='LPF', cc16='Regen',
@@ -55,12 +56,12 @@ warped_vinyl = Pedal(name='Warped Vinyl',
 condor = Pedal(name='Condor',
                cc14='Gain', cc15='Freq', cc16='Volume',
                cc17='Bass', cc18='Mids', cc19='LPF',
-               channel_select=('Pedal & Drive', 'Pedal', 'Drive', 'Off'))
+               left_channel='Pedal', right_channel='Drive')
 
 brothers = Pedal(name='Brothers',
                  cc14='Gain A', cc15='Master', cc16='Gain B',
                  cc17='Tone A', cc18='Mix/Stack', cc19='Tone B',
-                 channel_select=('A & B', 'A', 'B', 'Off'))
+                 left_channel='A', right_channel='B')
 
 gravitas = Pedal(name='Gravitas',
                  cc14='Drive', cc15='Volume', cc16='Tone',
@@ -72,7 +73,7 @@ gravitas = Pedal(name='Gravitas',
 generation_loss = Pedal(name='Generation Loss',
                         cc14='Wow', cc15='Wet', cc16='HP',
                         cc17='Flutter', cc18='Gen', cc19='LP',
-                        channel_select=('Pedal & Aux', 'Pedal', 'Aux', 'Off'))
+                        left_channel='Pedal', right_channel='Aux')
 
 wombtome = Pedal(name='Wombtome',
                  cc14='Feed', cc15='Volume', cc16='Mix',

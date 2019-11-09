@@ -36,20 +36,18 @@ class ChaseBlissMidi:
         self.to_cb = None       # the midi output port
         self.midi_xmit_queue = deque()
 
+    @staticmethod
+    def fatal_error(message):  # Used to test error dialog
+        fatal_error_popup = FatalErrorPopup()
+        fatal_error_popup.ids.message.text = message
+        fatal_error_popup.open()  # exits program
+
     def get_midi_ports(self):
         try:
             ports = mido.get_output_names()
-            # WIP in place to test error PopUp
-            # fatal_error_popup = FatalErrorPopup()
-            #  fatal_error_popup.ids.message.text = 'MIDI Failure: Run "Audio MIDI Setup"'
-            # fatal_error_popup.open()  # exits program
-
         except RuntimeError as e:
-            self.midi_out_names = None
             Logger.exception(f'APPLICATION: get_midi_ports(): {e}')
-            fatal_error_popup = FatalErrorPopup()
-            fatal_error_popup.ids.message.text = 'MIDI Failure: Run "Audio MIDI Setup"'
-            fatal_error_popup.open() # exits program
+            self.fatal_error('MIDI Failure: Run "Audio MIDI Setup"')
         return ports
 
     def close_ports(self):
@@ -63,9 +61,7 @@ class ChaseBlissMidi:
             self.to_cb = mido.open_output(output_port)
         except RuntimeError as e:
             Logger.exception(f'APPLICATION: set_midi(): {e}')
-            fatal_error_popup = FatalErrorPopup()
-            fatal_error_popup.ids.message.text = 'MIDI Failure: Run "Audio MIDI Setup"'
-            fatal_error_popup.open()
+            self.fatal_error('MIDI Failure: Run "Audio MIDI Setup"')
 
     def pc(self, preset: int):
         if self.to_cb:

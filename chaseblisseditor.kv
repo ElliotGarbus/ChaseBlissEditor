@@ -22,7 +22,8 @@
 
 <FatalErrorPopup>:
     title: 'Fatal MIDI Error'
-    # size_hint: (.5,.5)
+    size_hint: (.5,.5)
+    auto_dismiss: False
     BoxLayout:
         orientation: 'vertical'
         Label:
@@ -55,28 +56,32 @@
                 halign: 'center'
                 font_size: fs
         ToggleButton:
-            text: 'Bypass' if self.state == 'normal' else 'Bypassed'
+            text: 'On' if self.state == 'down' else 'Bypassed'
             on_state:
-                if self.state == 'normal': app.cb_midi.cc(CC.bypass, 127)
-                if self.state =='down': app.cb_midi.cc(CC.bypass, 0)
+                if self.state == 'down': app.cb_midi.cc(CC.bypass, 127)
+                if self.state =='normal': app.cb_midi.cc(CC.bypass, 0)
 
 <ScreenChannelSelect@Screen>
-    select_values: ['initial']
+    left_stomp_name: 'initial'
+    right_stomp_name: 'initial'
     text: 'initial'
     BoxLayout:
-        Spinner:
-            text: root.select_values[0] if root.select_values else 'None'
-            values: root.select_values if root.select_values else 'None'
-            on_text:
-                if root.select_values: app.cb_midi.cc(CC.channel_select, (127, 85, 45, 0)[root.select_values.index(self.text)])
-
+        ToggleButton:
+            id: left_stomp
+            text: root.left_stomp_name + (' On' if self.state == 'down' else ' Off')
+            on_state:
+                code = 0 if self.state == 'normal'else 1
+                code += 0 if right_stomp.state == 'normal'else 2
+                app.cb_midi.cc(CC.channel_select, (0, 45, 85, 127)[code])
         Label:
             text: root.text
         ToggleButton:
-            text: 'Bypass' if self.state == 'normal' else 'Bypassed'
+            id: right_stomp
+            text:  root.right_stomp_name + (' On' if self.state == 'down' else ' Off')
             on_state:
-                if self.state == 'normal': app.cb_midi.cc(CC.bypass, 127)
-                if self.state =='down': app.cb_midi.cc(CC.bypass, 0)
+                code = 0 if left_stomp.state == 'normal'else 1
+                code += 0 if self.state == 'normal'else 2
+                app.cb_midi.cc(CC.channel_select, (0, 45, 85, 127)[code])
 
 Editor:
     padding: '10dp'
@@ -167,22 +172,17 @@ Editor:
                 text: cb.pedals[root.pedal].cc20
                 disabled: cb.pedals[root.pedal].cc20 != 'Ramp'
                 on_value: app.cb_midi.cc(CC.cc20, self.value)
+            Image:
+                source: root.pedal + '.png'
+                allow_stretch: True
+
             BoxLayout:
                 orientation: 'vertical'
-                Label:
-                    size_hint_y: .5
                 Button:
                     text:'Initialize Patch'
-                Label:
-                    size_hint_y: .5
-            BoxLayout:
-                orientation: 'vertical'
-                Label:
-                    size_hint_y: .5
                 Button:
                     text:'Send to ' + root.pedal
-                Label:
-                    size_hint_y: .5
+
             CircleKnob:
                 text:cb.pedals[root.pedal].cc14
                 on_value: app.cb_midi.cc(CC.cc14, self.value)
@@ -230,10 +230,13 @@ Editor:
                     id: sm
                     ScreenTap:
                         name: 'tap_bpm'
+                        on_enter: app.cb_midi.cc(CC.bypass, 0)
                     ScreenChannelSelect:
                         name:'channel_select'
                         text: cb.pedals[root.pedal].name
-                        select_values: cb.pedals[root.pedal].channel_select if cb.pedals[root.pedal].channel_select else 'None'
+                        left_stomp_name: cb.pedals[root.pedal].left_channel
+                        right_stomp_name: cb.pedals[root.pedal].right_channel
+                        on_enter: app.cb_midi.cc(CC.channel_select, 0)
         TextInput:
             size_hint_y: .5
             hint_text: 'Patch Notes, include dip switch settings and other notes'
