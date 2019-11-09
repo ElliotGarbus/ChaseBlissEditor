@@ -56,6 +56,7 @@
                 halign: 'center'
                 font_size: fs
         ToggleButton:
+            id: bypass_stomp
             text: 'On' if self.state == 'down' else 'Bypassed'
             on_state:
                 if self.state == 'down': app.cb_midi.cc(CC.bypass, 127)
@@ -196,6 +197,7 @@ Editor:
                         text_size: self.size
                         valign: 'center'
                         halign: 'center'
+                        on_release: root.send_all_knobs()
                 Label:
                     size_hint_x: .2
 

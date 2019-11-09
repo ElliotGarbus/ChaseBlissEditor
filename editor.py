@@ -1,9 +1,11 @@
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
-from kivy.properties import ListProperty, StringProperty, NumericProperty
+from kivy.properties import ListProperty, StringProperty
 from kivy.clock import Clock
+from cb_midi import CC
 import cb_pedal_definitions as cb
+
 from time import time
 
 
@@ -29,16 +31,44 @@ class Editor(BoxLayout):
 
         p.cc21.text = cb.pedals[self.pedal].cc21[0]
         if not cb.pedals[self.pedal].cc22_disabled:
-             p.cc22.text = cb.pedals[self.pedal].cc22[0]   
+            p.cc22.text = cb.pedals[self.pedal].cc22[0]
         if not cb.pedals[self.pedal].cc23_disabled:
-             p.cc23.text = cb.pedals[self.pedal].cc23[0]
+            p.cc23.text = cb.pedals[self.pedal].cc23[0]
 
         if not cb.pedals[self.pedal].tap:
             p.sm.get_screen('channel_select').ids.left_stomp.state = 'normal'
             p.sm.get_screen('channel_select').ids.right_stomp.state = 'normal'
+        else:
+            p.sm.get_screen('tap_bpm').ids.bypass_stomp.state = 'down'
 
+    def send_all_knobs(self):
+        p = self.app.root.ids
+        send = self.app.cb_midi.cc
+        send(CC.cc14, p.cc14.knob_value)
+        send(CC.cc15, p.cc15.knob_value)
+        send(CC.cc16, p.cc16.knob_value)
+        send(CC.cc17, p.cc17.knob_value)
+        send(CC.cc18, p.cc18.knob_value)
+        send(CC.cc19, p.cc19.knob_value)
 
+        if cb.pedals[self.pedal].cc20 != 'None':
+            send(CC.cc20, p.cc20.knob_value)
 
+        send(CC.cc21, cb.pedals[self.pedal].cc21.index(p.cc21.text) + cb.pedals[self.pedal].cc21_offset)
+        if not cb.pedals[self.pedal].cc22_disabled:
+            send(CC.cc22, cb.pedals[self.pedal].cc22.index(p.cc22.text) + 1)
+        if not cb.pedals[self.pedal].cc23_disabled:
+            send(CC.cc23, cb.pedals[self.pedal].cc23.index(p.cc23.text) + 1)
+
+        if not cb.pedals[self.pedal].tap:
+            s = self.app.root.ids.sm.get_screen('channel_select').ids
+            code = 0 if s.left_stomp.state == 'normal' else 1
+            code += 0 if s.right_stomp.state == 'normal' else 2
+            send(CC.channel_select, (0, 45, 85, 127)[code])
+        else:
+            stomp = self.app.root.ids.sm.get_screen('tap_bpm').ids.bypass_stomp.state
+            v = 0 if stomp == 'normal' else 127
+            send(CC.bypass, v)
 
 
 class TapTextInput(TextInput):
@@ -47,10 +77,10 @@ class TapTextInput(TextInput):
         super().__init__(**kwargs)
 
     def create_tap(self, _):
-        tap_time = 60.0/int(self.text)
+        tap_time = 60.0 / int(self.text)
         t1 = t0 = time()
         self.app.cb_midi.tap()
-        while(t1 - t0) < tap_time:
+        while (t1 - t0) < tap_time:
             t1 = time()
         self.app.cb_midi.tap()
 
@@ -77,4 +107,3 @@ class ProgramChangeInput(TextInput):
         if int(self.text + s) > 122:
             s = ''
         return super().insert_text(s, from_undo=from_undo)
-
