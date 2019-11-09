@@ -182,11 +182,20 @@ Editor:
                 allow_stretch: True
 
             BoxLayout:
-                orientation: 'vertical'
-                Button:
-                    text:'Initialize Patch'
-                Button:
-                    text:'Send to ' + root.pedal
+                Label:
+                    size_hint_x: .2
+                BoxLayout:
+                    orientation: 'vertical'
+                    Button:
+                        text:'Initialize Patch'
+                    Button:
+                        text:'Send to ' + root.pedal
+                        shorten: True
+                        text_size: self.size
+                        valign: 'center'
+                        halign: 'center'
+                Label:
+                    size_hint_x: .2
 
             CircleKnob:
                 text:cb.pedals[root.pedal].cc14
