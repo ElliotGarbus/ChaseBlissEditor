@@ -164,6 +164,11 @@ Editor:
             Line:
                 width:dp(2)
                 rounded_rectangle: (*self.pos,self.width + 2,self.height, 2)
+            Color:
+                rgb: cb.pedals[root.pedal].color
+            Rectangle:
+                size: self.size
+                pos: self.pos
         GridLayout:
             cols: 3
             rows: 3
@@ -173,7 +178,7 @@ Editor:
                 disabled: cb.pedals[root.pedal].cc20 != 'Ramp'
                 on_value: app.cb_midi.cc(CC.cc20, self.value)
             Image:
-                source: root.pedal + '.png'
+                source: cb.pedals[root.pedal].logo
                 allow_stretch: True
 
             BoxLayout:

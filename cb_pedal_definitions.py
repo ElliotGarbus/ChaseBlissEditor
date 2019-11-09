@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Sequence
+from typing import Sequence, Tuple
 
 
 @dataclass
@@ -21,6 +21,8 @@ class Pedal:
     tap: bool = False
     left_channel: str = 'None'
     right_channel: str = 'None'
+    logo: str = 'None'
+    color: Tuple[float, float, float] = (0, 0, 0)
 
 
 total_recall_time_division = ('Qtr', 'Dotted 8th', '8th Triplet', '8th', '8th Sextolets', '16th')
@@ -29,7 +31,8 @@ time_division = ('Whole', 'Half', 'Qtr Triplets', 'Qtr', '8th', '16th')
 mood = Pedal(name='Mood',
              cc14='Gain', cc15='Freq', cc16='Volume',
              cc17='Bass', cc18='Mids', cc19='LPF',
-             left_channel='Blood', right_channel= 'Drolo')
+             left_channel='Blood', right_channel= 'Drolo',
+             logo='mood.png', color=(254/255, 144/255, 114/255))
 
 dark_world = Pedal(name='Dark World',
                    cc14='Decay', cc15='Mix', cc16='Dwell',
@@ -39,7 +42,7 @@ dark_world = Pedal(name='Dark World',
 thermae = Pedal(name='Thermae',
                 cc14='Mix', cc15='LPF', cc16='Regen',
                 cc17='Glide', cc18='Int 1 (Speed)', cc19='Int 2 (Depth)',
-                cc20='Ramp', tap=True)
+                cc20='Ramp', tap=True, logo='thermae.png', color=(8/255, 22/255, 49/255))
 
 tonal_recall = Pedal(name='Tonal Recall',
                      cc14='Tone', cc15='Mix', cc16='Rate',
