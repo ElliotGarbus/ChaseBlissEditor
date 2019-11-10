@@ -1,7 +1,9 @@
 # editor screen for Chase Bliss Editor
 #: import CircleKnob circleknob
+
 #: import cb cb_pedal_definitions
 #: import CC cb_midi.CC
+#: import Factory kivy.factory.Factory
 #: set white [1, 1, 1, 1]
 #: set fs '20dp'
 
@@ -37,6 +39,36 @@
             height: dp(40)
             text: 'Exit'
             on_release: exit(-1)
+
+<WritePresetDialog@Popup>
+    title: 'Save a Preset to the ' + root.pedal_name
+    size_hint: (.5,.5)
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            text: root.directions
+            line_height: 1.25
+        BoxLayout:
+            size_hint_y: None
+            height: dp(60)
+            # padding: dp(7)
+            spacing: dp(3)
+            Button:
+                text: 'Save Preset'
+                on_release:
+                    if preset_slot.text: app.cb_midi.pc(int(preset_slot.text))
+                    root.dismiss()
+            ProgramChangeInput:
+                id:preset_slot
+                text: root.preset_slot
+                hint_text: '1 - 122'
+                font_size: fs
+                multiline: False
+                halign: 'center'
+                padding: ('6dp', (self.height / 2.0) - (self.line_height / 2.0))
+            Button:
+                text: 'Cancel'
+                on_release: root.dismiss()
 
 <ScreenTap@Screen>
     BoxLayout:
@@ -140,7 +172,7 @@ Editor:
                     on_text: app.cb_midi.midi_channel = int(self.text) - 1
             BoxLayout:
                 Button:
-                    text: 'Send PC'
+                    text: 'Recall Preset'
                     on_release: if pc_input.text: app.cb_midi.pc(int(pc_input.text))
                 ProgramChangeInput:
                     id: pc_input
@@ -150,7 +182,9 @@ Editor:
                     halign: 'center'
                     padding: ('6dp', (self.height / 2.0) - (self.line_height / 2.0))
             Button:
-                text:'Write to ' + root.pedal
+                text:'Save Preset to ' + root.pedal
+                on_release: Factory.WritePresetDialog(pedal_name=root.pedal, preset_slot=pc_input.text).open()
+
         Label:
             size_hint_y: .4
             font_size: '15dp'

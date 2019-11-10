@@ -67,7 +67,7 @@ class ChaseBlissMidi:
         if self.to_cb:
             mmsg = mido.Message('program_change', channel=self.midi_channel, program=preset)
             self.midi_xmit_queue.append(mmsg)
-            print(f'pc: {preset}')
+            # print(f'pc: {preset}')
 
     def cc(self, cntrl: CC, value: int) -> None:
         if self.to_cb:

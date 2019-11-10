@@ -1,8 +1,12 @@
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
+from kivy.uix.popup import Popup
 from kivy.properties import ListProperty, StringProperty
 from kivy.clock import Clock
+from plyer import filechooser
+from kivy.factory import Factory  # imported in kv, inlcude here for Pyinstaller
+
 from cb_midi import CC
 import cb_pedal_definitions as cb
 
@@ -12,6 +16,7 @@ from time import time
 class Editor(BoxLayout):
     pedal_names = ListProperty([k for k in cb.pedals.keys()])
     pedal = StringProperty('Thermae')
+    patch_file = StringProperty('')
 
     def __init__(self, **kwargs):
         self.app = App.get_running_app()
@@ -70,6 +75,12 @@ class Editor(BoxLayout):
             v = 0 if stomp == 'normal' else 127
             send(CC.bypass, v)
 
+    def open_patch_file(self):
+        filechooser.open_file(on_selection=self.handle_selection)
+
+    def handle_selection(self, selection):
+        self.patch_file = selection
+
 
 class TapTextInput(TextInput):
     def __init__(self, **kwargs):
@@ -107,3 +118,18 @@ class ProgramChangeInput(TextInput):
         if int(self.text + s) > 122:
             s = ''
         return super().insert_text(s, from_undo=from_undo)
+
+
+class WritePresetDialog(Popup):
+    pedal_name = StringProperty('')
+    preset_slot = StringProperty('')
+    directions = StringProperty("""
+1) Enter a Preset Number (1 - 122)
+2) Hold down BOTH stomp switches
+3) Press the 'Save Preset' button
+4) Release the stomp switches""")
+
+    def __init__(self, **kwargs):
+        self.pedal_name = kwargs['pedal_name']
+        self.preset_slot = kwargs['preset_slot']
+        super().__init__(**kwargs)

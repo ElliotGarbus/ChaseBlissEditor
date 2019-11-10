@@ -8,6 +8,7 @@ import mido
 import mido.backends.rtmidi
 import editor
 import circleknob
+
 from cb_midi import ChaseBlissMidi
 
 
