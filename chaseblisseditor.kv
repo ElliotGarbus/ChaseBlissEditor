@@ -40,7 +40,7 @@
             text: 'Exit'
             on_release: exit(-1)
 
-<WritePresetDialog@Popup>
+<WritePresetDialog>
     title: 'Save a Preset to the ' + root.pedal_name
     size_hint: (.5,.5)
     BoxLayout:
@@ -134,6 +134,7 @@ Editor:
             BoxLayout:
                 Button:
                     text: 'Open File'
+                    on_release: root.open_patch_file()
                 Button:
                     text: 'Save File'
             BoxLayout:

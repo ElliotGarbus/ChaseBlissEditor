@@ -79,8 +79,10 @@ class Editor(BoxLayout):
         filechooser.open_file(on_selection=self.handle_selection)
 
     def handle_selection(self, selection):
-        self.patch_file = selection
-
+        try:
+            self.patch_file = selection
+        except:
+            pass
 
 class TapTextInput(TextInput):
     def __init__(self, **kwargs):
