@@ -5,6 +5,7 @@ from kivy.uix.popup import Popup
 from kivy.properties import ListProperty, StringProperty
 from kivy.clock import Clock
 from plyer import filechooser
+import plyer.platforms.win.filechooser  # for pyinstaller
 from kivy.factory import Factory  # imported in kv, inlcude here for Pyinstaller
 
 from cb_midi import CC

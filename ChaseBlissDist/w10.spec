@@ -10,7 +10,7 @@ win_icon = ''
 
 a = Analysis(['../main.py'],
              pathex=[spec_root],
-             datas=[('../*.kv', '.')],
+             datas=[('../*.kv', '.'), ('../*.png', '.')],
              hiddenimports=['win32timezone'],
              hookspath=[],
              runtime_hooks=[],
