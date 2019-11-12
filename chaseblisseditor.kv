@@ -3,6 +3,7 @@
 
 #: import cb cb_pedal_definitions
 #: import CC cb_midi.CC
+#: import PresetFile preset_file.PresetFile
 #: import Factory kivy.factory.Factory
 #: set white [1, 1, 1, 1]
 #: set fs '20dp'
@@ -134,7 +135,7 @@ Editor:
             BoxLayout:
                 Button:
                     text: 'Open File'
-                    on_release: root.open_patch_file()
+                    on_release: PresetFile().open()  #root.open_patch_file()
                 Button:
                     text: 'Save File'
             BoxLayout:
