@@ -46,7 +46,7 @@ class PresetFile:
             if value.name == name:
                 # print(f'name match, key: {key}')
                 self.app.root.ids.devices.text = key
-                break
+                return
 
     def _set_patch(self):
         self._set_device(self.preset['pedal name'])
@@ -67,7 +67,18 @@ class PresetFile:
         if 'cc23' in self.preset:
             p.cc23.text = self.pedal.cc22[self.preset['cc23'] - 1]
 
-        #todo: pick up from here
+        if 'bpm' in self.preset:
+            p.sm.get_screen('tap_bpm').ids.bpm_input.text = self.preset['bpm']
+            p.sm.get_screen('tap_bpm').ids.bpm_input.create_tap(None)
+
+        if 'bypass_stomp' in self.preset:
+            p.sm.get_screen('tap_bpm').ids.bypass_stomp.state = self.preset['bypass_stomp']
+        if 'left_stomp' in self.preset:
+            p.sm.get_screen('channel_select').ids.left_stomp.state = self.preset['left_stomp']
+        if 'right_stomp' in self.preset:
+            p.sm.get_screen('channel_select').ids.right_stomp.state = self.preset['right_stomp']
+
+
 
     def open(self):
         # junk test code... to be replaced
