@@ -85,6 +85,7 @@ class Editor(BoxLayout):
         except ValueError:  # The user did not select a file
             pass
 
+
 class TapTextInput(TextInput):
     def __init__(self, **kwargs):
         self.app = App.get_running_app()

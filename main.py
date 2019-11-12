@@ -4,8 +4,8 @@ from kivy.core.window import Window
 from kivy.utils import platform
 from kivy.metrics import Metrics
 from kivy.clock import Clock
-import mido
-import mido.backends.rtmidi
+# import mido
+# import mido.backends.rtmidi
 import editor
 import circleknob
 
@@ -25,7 +25,7 @@ class ChaseBlissEditorApp(App):
         pass
 
     def get_application_config(self, defaultpath='%(appdir)s/%(appname)s.ini'):
-        if platform =='macosx':  # mac will not write into app folder
+        if platform == 'macosx':  # mac will not write into app folder
             s = '~/.%(appname)s.ini'
         else:
             s = defaultpath
@@ -33,13 +33,13 @@ class ChaseBlissEditorApp(App):
 
     def build(self):
         self.title = 'Chase Bliss Editor V0.2'
-        self.icon = ''
+        self.icon = 'cb_64.png'
         Window.minimum_width = window_width
         Window.minimum_height = window_height
         self.use_kivy_settings = False
         Window.bind(on_request_close=self.window_request_close)
 
-    def window_request_close(self, win):
+    def window_request_close(self, _):
         # Window.size is automatically adjusted for density, must divide by density when saving size
         config = self.config
         config.set('Window', 'width', int(Window.size[0] / Metrics.density))
@@ -62,4 +62,6 @@ class ChaseBlissEditorApp(App):
     def on_stop(self):
         self.config.write()
 
-ChaseBlissEditorApp().run()
+
+if __name__ == '__main__':
+    ChaseBlissEditorApp().run()
