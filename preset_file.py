@@ -70,6 +70,7 @@ class PresetFile:
         #todo: pick up from here
 
     def open(self):
+        # junk test code... to be replaced
         self._get_patch()
         print(self.preset)
         self._set_patch()
