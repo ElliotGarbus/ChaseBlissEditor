@@ -41,8 +41,15 @@ class PresetFile:
             self.preset['left_stomp'] = p.sm.get_screen('channel_select').ids.left_stomp.state
             self.preset['right_stomp'] = p.sm.get_screen('channel_select').ids.right_stomp.state
 
+    def _set_device(self, name):
+        for key, value in cb.pedals.items():
+            if value.name == name:
+                # print(f'name match, key: {key}')
+                self.app.root.ids.devices.text = key
+                break
+
     def _set_patch(self):
-        # todo, read name out of preset and use it set device.  Reverse look up in cb.pedals.
+        self._set_device(self.preset['pedal name'])
         p = self.app.root.ids
         p.cc14.knob_value = self.preset['cc14']
         p.cc15.knob_value = self.preset['cc15']
@@ -60,9 +67,12 @@ class PresetFile:
         if 'cc23' in self.preset:
             p.cc23.text = self.pedal.cc22[self.preset['cc23'] - 1]
 
+        #todo: pick up from here
 
     def open(self):
         self._get_patch()
+        print(self.preset)
+        self._set_patch()
         print(self.preset)
         pass
 
