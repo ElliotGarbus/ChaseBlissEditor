@@ -76,15 +76,6 @@ class Editor(BoxLayout):
             v = 0 if stomp == 'normal' else 127
             send(CC.bypass, v)
 
-    def open_patch_file(self, **kwargs):
-        filechooser.open_file(on_selection=self.handle_selection, **kwargs)
-
-    def handle_selection(self, selection):
-        try:
-            self.patch_file = selection
-        except ValueError:  # The user did not select a file
-            pass
-
 
 class TapTextInput(TextInput):
     def __init__(self, **kwargs):

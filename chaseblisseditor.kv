@@ -135,9 +135,10 @@ Editor:
             BoxLayout:
                 Button:
                     text: 'Open File'
-                    on_release: PresetFile().open()  #root.open_patch_file()
+                    on_release: PresetFile().open()
                 Button:
                     text: 'Save File'
+                    on_release: PresetFile().save()
             BoxLayout:
                 Label:
                     text: 'Name:'

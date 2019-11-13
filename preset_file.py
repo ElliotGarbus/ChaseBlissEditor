@@ -1,8 +1,11 @@
 from kivy.app import App
-from cb_midi import CC
 import cb_pedal_definitions as cb
 from plyer import filechooser
-import plyer.platforms.win.filechooser
+import plyer.platforms.win.filechooser  # for pyinstaller
+from os.path import join, exists
+from os import mkdir
+import json
+from pathlib import Path
 
 
 class PresetFile:
@@ -11,6 +14,9 @@ class PresetFile:
         self.preset = {}
         self.app = App.get_running_app()
         self.pedal = cb.pedals[self.app.root.ids.devices.text]
+        self.patch_file = 'UNTITLED'
+        self.filter = ['*.cbp']
+        self.path = join(self.app.user_data_dir, 'Chase Bliss Patches')
 
     def _get_patch(self):
         p = self.app.root.ids
@@ -25,7 +31,7 @@ class PresetFile:
         if self.pedal.cc20 != 'None':  # Ramp knob CC
             self.preset['cc20'] = p.cc20.knob_value
 
-        self.preset['cc21'] = self.pedal.cc21.index(p.cc21.text)  + self.pedal.cc21_offset
+        self.preset['cc21'] = self.pedal.cc21.index(p.cc21.text) + self.pedal.cc21_offset
 
         if not self.pedal.cc22_disabled:
             self.preset['cc22'] = self.pedal.cc22.index(p.cc22.text) + 1
@@ -48,7 +54,8 @@ class PresetFile:
                 self.app.root.ids.devices.text = key
                 return
 
-    def _set_patch(self):
+    def _set_patch(self, patch):
+        self.preset = patch
         self._set_device(self.preset['pedal name'])
         p = self.app.root.ids
         p.cc14.knob_value = self.preset['cc14']
@@ -78,16 +85,41 @@ class PresetFile:
         if 'right_stomp' in self.preset:
             p.sm.get_screen('channel_select').ids.right_stomp.state = self.preset['right_stomp']
 
-
-
     def open(self):
-        # junk test code... to be replaced
-        self._get_patch()
-        print(self.preset)
-        self._set_patch()
-        print(self.preset)
-        pass
+        if not exists(self.path):
+            mkdir(self.path)
+        file_name = self.app.root.ids.patch_filename.text + '.cbp'
+        filechooser.open_file(path=join(self.path, file_name), filters=self.filter,
+                              title='Open Patch File',
+                              on_selection=self._open_selection)
+
+    def _open_selection(self, selection):
+        try:
+            self.patch_file = Path(selection[0]).name
+        except (ValueError, IndexError):  # The user did not select a file
+            return
+
+        with open(selection[0], 'r') as file:
+            p = file.read()
+            self._set_patch(json.loads(p))
+        self.app.root.ids.patch_filename.text = Path(self.patch_file).stem
 
     def save(self):
-        pass
+        if not exists(self.path):
+            mkdir(self.path)
+        file_name = self.app.root.ids.patch_filename.text + '.cbp'
+        filechooser.save_file(path=join(self.path, file_name),
+                              filters=self.filter, title='Save the Patch',
+                              on_selection=self._save_selection)
 
+    def _save_selection(self, selection):
+        try:
+            self.patch_file = Path(selection[0]).stem
+        except (ValueError, IndexError):  # The user did not select a file
+            return
+
+        with open(selection[0], 'w') as file:
+            self._get_patch()
+            p = json.dumps(self.preset)
+            file.write(p)
+            self.app.root.ids.patch_filename.text = self.patch_file
