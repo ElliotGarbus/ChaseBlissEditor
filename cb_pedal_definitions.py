@@ -44,6 +44,8 @@ dark_world = Pedal(name='Dark World',
 thermae = Pedal(name='Thermae',
                 cc14='Mix', cc15='LPF', cc16='Regen',
                 cc17='Glide', cc18='Int 1 (Speed)', cc19='Int 2 (Depth)',
+                cc21=('Qtr', 'dotted 8th', '8th'), cc22=('Qtr / Smooth', 'dotted 8th / Glitchy', '8th / More Glitchy'),
+                cc23=('Qtr / Tri', 'dotted 8th / Sin', '8th / Sqr'),
                 cc20='Ramp', tap=True, logo='thermae.png', color=(8/255, 22/255, 49/255))
 
 tonal_recall = Pedal(name='Tonal Recall',

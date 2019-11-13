@@ -300,6 +300,7 @@ Editor:
                         right_stomp_name: cb.pedals[root.pedal].right_channel
                         on_enter: app.cb_midi.cc(CC.channel_select, 0)
         TextInput:
+            id: notes
             size_hint_y: .5
             hint_text: 'Patch Notes, include dip switch settings and other notes.  Dip switches are not saved in the preset.'
 
