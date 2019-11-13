@@ -20,6 +20,7 @@ class PresetFile:
 
     def _get_patch(self):
         p = self.app.root.ids
+        self.preset['version'] = 1.0
         self.preset['pedal name'] = self.pedal.name
         self.preset['cc14'] = p.cc14.knob_value
         self.preset['cc15'] = p.cc15.knob_value
@@ -56,10 +57,11 @@ class PresetFile:
                 # print(f'name match, key: {key}')
                 self.app.root.ids.devices.text = key
                 self.pedal = cb.pedals[self.app.root.ids.devices.text]
+                print(self.app.root.pedal)
                 return
 
     def _set_patch(self, patch):
-        self.preset = patch   # copy to preset...
+        self.preset = patch   # copy to self.preset...
         self._set_device(self.preset['pedal name'])
         p = self.app.root.ids
         p.cc14.knob_value = self.preset['cc14']
@@ -76,7 +78,7 @@ class PresetFile:
         if 'cc22' in self.preset:
             p.cc22.text = self.pedal.cc22[self.preset['cc22'] - 1]
         if 'cc23' in self.preset:
-            p.cc23.text = self.pedal.cc22[self.preset['cc23'] - 1]
+            p.cc23.text = self.pedal.cc23[self.preset['cc23'] - 1]
 
         if 'bpm' in self.preset:
             p.sm.get_screen('tap_bpm').ids.bpm_input.text = self.preset['bpm']
