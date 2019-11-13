@@ -46,6 +46,7 @@ class Editor(BoxLayout):
             p.sm.get_screen('channel_select').ids.right_stomp.state = 'normal'
         else:
             p.sm.get_screen('tap_bpm').ids.bypass_stomp.state = 'down'
+        p.notes.text = ''
 
     def send_all_knobs(self):
         p = self.app.root.ids
