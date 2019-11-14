@@ -92,6 +92,8 @@ class PresetFile:
             p.sm.get_screen('channel_select').ids.right_stomp.state = self.preset['right_stomp']
         if 'notes' in self.preset:
             p.notes.text = self.preset['notes']
+        else:
+            p.notes.text = ''
 
     def open(self):
         if not exists(self.path):

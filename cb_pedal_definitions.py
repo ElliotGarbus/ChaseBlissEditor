@@ -39,6 +39,7 @@ mood = Pedal(name='Mood',
 dark_world = Pedal(name='Dark World',
                    cc14='Decay', cc15='Mix', cc16='Dwell',
                    cc17='Modify', cc18='Tone', cc19='Pre-Delay',
+                   cc21=('Mod', 'Shim', 'Black'), cc22=('Parallel', 'D->W', 'W->D'),cc23=('Hall', 'Plate', 'Spring'),
                    left_channel='D', right_channel='W',
                    logo='dark world.png', color=(172/255, 180/255, 191/255))
 
@@ -53,42 +54,55 @@ tonal_recall = Pedal(name='Tonal Recall',
                      cc14='Tone', cc15='Mix', cc16='Rate',
                      cc17='Time', cc18='Regen', cc19='Depth',
                      cc20='Ramp', cc21_offset=0, cc22_disabled=True, cc23_disabled=True,
-                     cc21=total_recall_time_division, cc22=('NA',), cc23=('NA',), tap=True)
+                     cc21=total_recall_time_division, cc22=('NA',), cc23=('NA',), tap=True,
+                     logo='tonal recall.png', color=(98/255, 147/255, 186/255))
 
 warped_vinyl = Pedal(name='Warped Vinyl',
                      cc14='Tone', cc15='Lag', cc16='Mix',
                      cc17='RPM', cc18='Depth', cc19='Warp',
                      cc20='Ramp', cc21_offset=0, cc22_disabled=True, cc23_disabled=True,
-                     cc21=time_division, cc22=('NA',), cc23=('NA',), tap=True)
+                     cc21=time_division, cc22=('NA',), cc23=('NA',), tap=True,
+                     logo='warped vinyl.png', color=(12/255, 20/255, 33/255))
 
 condor = Pedal(name='Condor',
                cc14='Gain', cc15='Freq', cc16='Volume',
                cc17='Bass', cc18='Mids', cc19='LPF',
-               left_channel='Pedal', right_channel='Drive')
+               cc21=('Small', 'Moderate', 'Big'), cc22=('Wide Hump/Scoop', 'More Focused', 'Narrow'),
+               cc23=('Gentle', 'Slightly Resonant', 'Much More Resonant'),
+               left_channel='Pedal', right_channel='Drive',
+               logo='condor.png', color=(200/255, 200/255, 200/255))
 
 brothers = Pedal(name='Brothers',
                  cc14='Gain A', cc15='Master', cc16='Gain B',
                  cc17='Tone A', cc18='Mix/Stack', cc19='Tone B',
-                 left_channel='A', right_channel='B')
+                 cc21=('Boost', 'Drive', 'Fuzz'), cc22=('Parallel', 'A -> B', 'B -> A'),
+                 cc23=('Fuzz', 'Drive', 'Boost'),
+                 left_channel='A', right_channel='B',
+                 logo='brothers.png', color=(232/255, 193/255, 98/255))
 
 gravitas = Pedal(name='Gravitas',
                  cc14='Drive', cc15='Volume', cc16='Tone',
                  cc17='Rate',  cc18='Depth', cc19='Sway',
                  cc20='Ramp', cc21_offset=0,
                  cc22_disabled=True, cc23_disabled=True, cc21=time_division,
-                 cc22=('NA',), cc23=('NA',), tap=True)
+                 cc22=('NA',), cc23=('NA',), tap=True,
+                 logo='gravitas.png', color=(54/255, 50/255, 46/255))
 
-generation_loss = Pedal(name='Generation Loss',
+generation_loss = Pedal(name='Generation Loss',  # Need to add support for bypass + not tap 2nd stomp.
                         cc14='Wow', cc15='Wet', cc16='HP',
                         cc17='Flutter', cc18='Gen', cc19='LP',
-                        left_channel='Pedal', right_channel='Aux')
+                        cc21=('Mod', 'Gen', 'Filter'), cc22=('None', 'Small', 'Unity'),
+                        cc23=('None', 'Mild', 'Heavy'),
+                        left_channel='Aux', right_channel='Bypass',
+                        logo='generation loss.png', color=(1/255, 98/255, 156/255))
 
 wombtome = Pedal(name='Wombtome',
                  cc14='Feed', cc15='Volume', cc16='Mix',
                  cc17='Rate', cc18='Depth', cc19='Form',
                  cc20='Ramp', cc21_offset=0,
                  cc22_disabled=True, cc23_disabled=True, cc21=time_division,
-                 cc22=('NA',), cc23=('NA',), tap=True)
+                 cc22=('NA',), cc23=('NA',), tap=True,
+                 logo='wombtone.png', color=(141/255, 1/255, 29/255))
 
 pedals = {'Brothers': brothers,
           'Condor': condor,
