@@ -39,7 +39,7 @@ mood = Pedal(name='Mood',
 dark_world = Pedal(name='Dark World',
                    cc14='Decay', cc15='Mix', cc16='Dwell',
                    cc17='Modify', cc18='Tone', cc19='Pre-Delay',
-                   cc21=('Mod', 'Shim', 'Black'), cc22=('Parallel', 'D->W', 'W->D'),cc23=('Hall', 'Plate', 'Spring'),
+                   cc21=('Mod', 'Shim', 'Black'), cc22=('Parallel', 'D->W', 'W->D'), cc23=('Hall', 'Plate', 'Spring'),
                    left_channel='D', right_channel='W',
                    logo='dark world.png', color=(172/255, 180/255, 191/255))
 
