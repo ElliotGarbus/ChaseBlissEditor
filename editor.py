@@ -90,6 +90,7 @@ class TapTextInput(TextInput):
         while (t1 - t0) < tap_time:
             t1 = time()
         self.app.cb_midi.tap()
+        self.app.preset_file.update_patch_color()
 
     def insert_text(self, substring, from_undo=False):
         s = substring if substring.isdigit() else ''

@@ -1,6 +1,7 @@
 import mido
 import mido.backends.rtmidi  # required for pyinstaller to create an exe
 
+from kivy.app import App
 from kivy.uix.popup import Popup
 from kivy.logger import Logger
 
@@ -73,6 +74,8 @@ class ChaseBlissMidi:
         if self.to_cb:
             mmsg = mido.Message('control_change', channel=self.midi_channel, control=cntrl.value, value=value)
             self.midi_xmit_queue.append(mmsg)
+            app = App.get_running_app()
+            app.preset_file.update_patch_color()
 
     def tap(self) -> None:  # Tap bypasses the xmit queue to provide finer gain cotrol of tempo
         if self.to_cb:

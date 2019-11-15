@@ -12,14 +12,21 @@ class PresetFile:
     # Contents of patch file is driven by contents of the Pedal data class in cb_pedal_definitions.py
     def __init__(self):
         self.preset = {}
-        self.app = App.get_running_app()
-        self.pedal = cb.pedals[self.app.root.ids.devices.text]
+        self.opened_preset = {}
+        self.app = None  # App.get_running_app()
+        self.pedal = None  # cb.pedals[self.app.root.ids.devices.text]
         self.patch_file = 'UNTITLED'
         self.filter = ['*.cbp']
+        self.path = None  # join(self.app.user_data_dir, 'Chase Bliss Patches')
+
+    def post_app_init(self):
+        self.app = App.get_running_app()
+        self.pedal = cb.pedals[self.app.root.ids.devices.text]
         self.path = join(self.app.user_data_dir, 'Chase Bliss Patches')
 
     def _get_patch(self):
         p = self.app.root.ids
+        self.pedal = cb.pedals[self.app.root.ids.devices.text]
         self.preset['version'] = 1.0
         self.preset['pedal name'] = self.pedal.name
         self.preset['cc14'] = p.cc14.knob_value
@@ -32,12 +39,17 @@ class PresetFile:
         if self.pedal.cc20 != 'None':  # Ramp knob CC
             self.preset['cc20'] = p.cc20.knob_value
 
-        self.preset['cc21'] = self.pedal.cc21.index(p.cc21.text) + self.pedal.cc21_offset
+        try:
+            self.preset['cc21'] = self.pedal.cc21.index(p.cc21.text) + self.pedal.cc21_offset
 
-        if not self.pedal.cc22_disabled:
-            self.preset['cc22'] = self.pedal.cc22.index(p.cc22.text) + 1
-        if not self.pedal.cc23_disabled:
-            self.preset['cc23'] = self.pedal.cc23.index(p.cc23.text) + 1
+            if not self.pedal.cc22_disabled:
+                self.preset['cc22'] = self.pedal.cc22.index(p.cc22.text) + 1
+            if not self.pedal.cc23_disabled:
+                self.preset['cc23'] = self.pedal.cc23.index(p.cc23.text) + 1
+        except ValueError as e:
+            # print(f'Value Error: {e} ')
+            # This exception will only occur when changing devices
+            pass
 
         if self.pedal.tap and p.sm.get_screen('tap_bpm').ids.bpm_input.text:
             self.preset['bpm'] = p.sm.get_screen('tap_bpm').ids.bpm_input.text
@@ -57,7 +69,7 @@ class PresetFile:
                 # print(f'name match, key: {key}')
                 self.app.root.ids.devices.text = key
                 self.pedal = cb.pedals[self.app.root.ids.devices.text]
-                print(self.app.root.pedal)
+                # print(self.app.root.pedal)
                 return
 
     def _set_patch(self, patch):
@@ -113,6 +125,8 @@ class PresetFile:
             p = file.read()
             self._set_patch(json.loads(p))
         self.app.root.ids.patch_filename.text = Path(self.patch_file).stem
+        self.opened_preset = self.preset.copy()
+        self.update_patch_color()
 
     def save(self):
         if not exists(self.path):
@@ -133,3 +147,11 @@ class PresetFile:
             p = json.dumps(self.preset)
             file.write(p)
             self.app.root.ids.patch_filename.text = self.patch_file
+            self.opened_preset = self.preset.copy()
+            self.update_patch_color()
+
+    def update_patch_color(self):
+        if self.app.root.ids.patch_filename.text != 'UNTITLED':
+            self._get_patch()
+            changed = not (self.preset == self.opened_preset)
+            self.app.root.ids.patch_filename.color = [1, 0, 0, 1] if changed else [1, 1, 1, 1]
