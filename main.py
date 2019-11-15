@@ -50,7 +50,6 @@ class ChaseBlissEditorApp(App):
         return False
 
     def on_start(self):
-        # self.midi_ports = mido.get_output_names()
         # Set Window to previous size and position
         config = self.config
         width = config.getdefault('Window', 'width', window_width)
