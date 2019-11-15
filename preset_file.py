@@ -1,11 +1,15 @@
 from kivy.app import App
 import cb_pedal_definitions as cb
-from plyer import filechooser
-import plyer.platforms.win.filechooser  # for pyinstaller
 from os.path import join, exists
 from os import mkdir
 import json
+from kivy.utils import platform
 from pathlib import Path
+from plyer import filechooser
+if platform == 'win':
+    import plyer.platforms.win.filechooser  # for pyinstaller
+if platform == 'maxosx':
+    import plyer.platforms.macosx.filechooser # for pyinstaller
 
 
 class PresetFile:
@@ -73,7 +77,7 @@ class PresetFile:
                 return
 
     def _set_patch(self, patch):
-        self.preset = patch   # copy to self.preset...
+        self.preset = patch  # copy to self.preset...
         self._set_device(self.preset['pedal name'])
         p = self.app.root.ids
         p.cc14.knob_value = self.preset['cc14']

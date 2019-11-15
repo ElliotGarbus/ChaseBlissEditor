@@ -276,7 +276,6 @@ Editor:
                     text_autoupdate: True
                     values: cb.pedals[root.pedal].cc21
                     on_text:
-                        print(f'cc21 spinner root.pedal: {root.pedal}, self.text: {self.text}')
                         app.cb_midi.cc(CC.cc21, cb.pedals[root.pedal].cc21.index(self.text) + cb.pedals[root.pedal].cc21_offset)
                 Spinner:
                     id: cc22

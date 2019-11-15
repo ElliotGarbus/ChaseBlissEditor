@@ -4,8 +4,6 @@ from kivy.core.window import Window
 from kivy.utils import platform
 from kivy.metrics import Metrics
 from kivy.clock import Clock
-# import mido
-# import mido.backends.rtmidi
 import editor
 import circleknob
 from preset_file import PresetFile
