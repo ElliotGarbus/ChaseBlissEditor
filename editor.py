@@ -65,6 +65,7 @@ class Editor(BoxLayout):
         if not cb.pedals[self.pedal].cc23_disabled:
             send(CC.cc23, cb.pedals[self.pedal].cc23.index(p.cc23.text) + 1)
 
+
         if not cb.pedals[self.pedal].tap:
             s = self.app.root.ids.sm.get_screen('channel_select').ids
             code = 0 if s.left_stomp.state == 'normal' else 1
@@ -74,6 +75,8 @@ class Editor(BoxLayout):
             stomp = self.app.root.ids.sm.get_screen('tap_bpm').ids.bypass_stomp.state
             v = 0 if stomp == 'normal' else 127
             send(CC.bypass, v)
+            if self.app.root.ids.sm.get_screen('tap_bpm').ids.bpm_input.text:
+                self.app.root.ids.sm.get_screen('tap_bpm').ids.bpm_input.create_tap(None)
 
 
 class TapTextInput(TextInput):
