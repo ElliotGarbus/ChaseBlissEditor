@@ -194,9 +194,12 @@ Editor:
                 on_release: Factory.WritePresetDialog(pedal_name=root.pedal, preset_slot=pc_input.text).open()
 
         Label:
+            markup: True
             size_hint_y: .4
             font_size: '15dp'
-            text: 'Directions go here'
+            text_size: self.size
+            valign: 'top'
+            text: app.directions
 
     BoxLayout: # Right Side Controls
         orientation: 'vertical'

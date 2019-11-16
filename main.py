@@ -10,10 +10,21 @@ from preset_file import PresetFile
 
 from cb_midi import ChaseBlissMidi
 
+_directions = """
+[b]Open/Save File[/b] - Open or Save to computer
+[b]Recall Preset[/b] - Send PC to pedal.
+[b]Save Preset to...[/b] - Write to the pedal
+[b]Initialize Path[/b] - Set knobs to zero.
+[b]Send to...[/b] - Send editor settings to the pedal.
+
+[b]NOTE:[/b] Changes to the pedal are not reflected in the editor. CB pedals can only receive midi.  
+"""
+
 
 class ChaseBlissEditorApp(App):
     cb_midi = ChaseBlissMidi()
     preset_file = PresetFile()
+    directions = _directions
 
     def build_config(self, config):
         config.setdefaults('Window', {'width': window_width,
