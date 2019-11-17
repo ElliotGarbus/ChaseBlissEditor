@@ -1,42 +1,41 @@
+from pathlib import Path
+
 from kivy.app import App
 from kivy.lang.builder import Builder
 from plyer import filechooser
-from pathlib import Path
-from os.path import join
-
 
 kv = '''
 BoxLayout:
     orientation: 'vertical'
     Button:
-        text: 'Test: Open File'
+        text: 'Test: Open, filters == ["*.pdf"]'
+        on_release: app.ft.open(filters=['*.pdf'])
+    Button:
+        text: 'Test: Open, filters == []'
         on_release: app.ft.open()
     Label:
-        text: 'Blank'
+        text: 'plyer.filechooser.open_file() with a filter will crash on mac'
 '''
 
 
 class FileTest:
     def __init__(self):
-        self.path = 'C:/Users/ellio/Downloads'
-        self.filters = ['*.pdf']
-        self.file_name = 'Mix5_8_12FX_OM.pdf'
-        self.patch_file = ''
+        self.file_name = ''
 
-    def open(self):
-        filechooser.open_file(title='Open Patch File',
+    def open(self, filters=[]):
+        filechooser.open_file(title='Open Patch File', filters=filters,
                               on_selection=self._open_selection)
 
     def _open_selection(self, selection):
         try:
-            self.patch_file = Path(selection[0]).name
+            self.file_name = Path(selection[0]).name
         except (ValueError, IndexError):  # The user did not select a file
             print('open canceled')
-            return
-        print(f'open file: {self.patch_file}')
+        else:
+            print(f'open file: {self.file_name}')
 
 
-class DDTestApp(App):
+class PlyerFilechooserTestApp(App):
     ft = FileTest()
 
     def build(self):
@@ -44,5 +43,4 @@ class DDTestApp(App):
 
 
 if __name__ == '__main__':
-    DDTestApp().run()
-
+    PlyerFilechooserTestApp().run()
