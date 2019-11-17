@@ -11,13 +11,13 @@ from preset_file import PresetFile
 from cb_midi import ChaseBlissMidi
 
 _directions = """
-[b]Open/Save File[/b] - Open or Save to computer
+[b]Open/Save File[/b] - ...to computer
 [b]Recall Preset[/b] - Send PC to pedal.
-[b]Save Preset to...[/b] - Write to the pedal
+[b]Save Preset to...[/b] - Write to pedal
 [b]Initialize Patch[/b] - Set knobs to zero.
-[b]Send to...[/b] - Send settings to the pedal.
+[b]Send to...[/b] - Send settings to pedal.
 
-[b]NOTE:[/b] Changes to the pedal are not reflected in the editor. CB pedals can only receive midi.  
+[b]NOTE:[/b] Changes to the pedal are not reflected in the editor. 
 """
 
 

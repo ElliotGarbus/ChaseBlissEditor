@@ -115,10 +115,14 @@ class PresetFile:
         if not exists(self.path):
             mkdir(self.path)
         file_name = self.app.root.ids.patch_filename.text + '.cbp'
-        filechooser.open_file(path=join(self.path, file_name), filters=self.filter,
-                              title='Open Patch File',
-                              on_selection=self._open_selection)
-
+        if platform == 'win':
+            filechooser.open_file(path=join(self.path, file_name), filters=self.filter,
+                                  title='Open Patch File',
+                                  on_selection=self._open_selection)
+        if platform == 'macosx':
+            filechooser.open_file(path=self.path,                   # filters fails on mac
+                                  title='Open Patch File',
+                                  on_selection=self._open_selection)
     def _open_selection(self, selection):
         try:
             self.patch_file = Path(selection[0]).name
@@ -136,9 +140,15 @@ class PresetFile:
         if not exists(self.path):
             mkdir(self.path)
         file_name = self.app.root.ids.patch_filename.text + '.cbp'
-        filechooser.save_file(path=join(self.path, file_name),
-                              filters=self.filter, title='Save the Patch',
-                              on_selection=self._save_selection)
+        if platform == 'win':
+            filechooser.save_file(path=join(self.path, file_name),
+                                  filters=self.filter, title='Save the Patch',
+                                  on_selection=self._save_selection)
+
+        if platform == 'macosx':
+            filechooser.save_file(path=self.path,
+                                  title='Save the Patch',
+                                  on_selection=self._save_selection)
 
     def _save_selection(self, selection):
         try:
