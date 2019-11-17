@@ -14,8 +14,8 @@ _directions = """
 [b]Open/Save File[/b] - Open or Save to computer
 [b]Recall Preset[/b] - Send PC to pedal.
 [b]Save Preset to...[/b] - Write to the pedal
-[b]Initialize Path[/b] - Set knobs to zero.
-[b]Send to...[/b] - Send editor settings to the pedal.
+[b]Initialize Patch[/b] - Set knobs to zero.
+[b]Send to...[/b] - Send settings to the pedal.
 
 [b]NOTE:[/b] Changes to the pedal are not reflected in the editor. CB pedals can only receive midi.  
 """
