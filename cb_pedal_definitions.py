@@ -29,8 +29,8 @@ total_recall_time_division = ('Qtr', 'Dotted 8th', '8th Triplet', '8th', '8th Se
 time_division = ('Whole', 'Half', 'Qtr Triplets', 'Qtr', '8th', '16th')
 
 mood = Pedal(name='Mood',
-             cc14='Gain', cc15='Freq', cc16='Volume',
-             cc17='Bass', cc18='Mids', cc19='LPF',
+             cc14='Time', cc15='Mix', cc16='Length',
+             cc17='Modify', cc18='Clock', cc19='Modify',
              cc21=('Reverb', 'Delay', 'Slip'), cc22=('In -> Blood', 'In + Drolo -> Blood', 'Drolo -> Blood'),
              cc23=('Env', 'Tape', 'Stretch'),
              left_channel='Blood', right_channel='Drolo',
