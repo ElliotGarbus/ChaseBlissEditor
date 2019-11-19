@@ -6,7 +6,7 @@ from kivy_deps import sdl2, glew
 spec_root = os.path.abspath(SPECPATH)
 block_cipher = None
 app_name = 'Chase Bliss Editor'
-win_icon = ''
+win_icon = '../cb_icon.ico'
 
 a = Analysis(['../main.py'],
              pathex=[spec_root],
