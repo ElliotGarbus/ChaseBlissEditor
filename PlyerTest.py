@@ -8,10 +8,13 @@ kv = '''
 BoxLayout:
     orientation: 'vertical'
     Button:
-        text: 'Test: Open, filters == ["*.pdf"]'
+        text: 'Test: Open, filters=["*.pdf"]; this will crash python'
         on_release: app.ft.open(filters=['*.pdf'])
     Button:
-        text: 'Test: Open, filters == []'
+        text: 'Test: Open, filters=["*.pdf"] use_extensions=True; throws exception '
+        on_release: app.ft.open(filters=['*.pdf'], use_extensions=True)
+    Button:
+        text: 'Test: Open, filters=[] this will work as expected'
         on_release: app.ft.open()
     Label:
         text: 'plyer.filechooser.open_file() with a filter will crash on mac'
@@ -22,9 +25,9 @@ class FileTest:
     def __init__(self):
         self.file_name = ''
 
-    def open(self, filters=[]):
-        filechooser.open_file(title='Open Patch File', filters=filters,
-                              on_selection=self._open_selection)
+    def open(self, **kwargs):
+        filechooser.open_file(title='Open Patch File',
+                              on_selection=self._open_selection, **kwargs)
 
     def _open_selection(self, selection):
         try:
