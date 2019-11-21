@@ -5,7 +5,7 @@ import os
 spec_root = os.path.abspath(SPECPATH)
 block_cipher = None
 app_name = 'ChaseBlissEditor'
-mac_icon = ''
+mac_icon = '../cb_256.icns'
 
 
 a = Analysis(['../main.py'],
