@@ -22,6 +22,7 @@ class PresetFile:
         self.patch_file = 'UNTITLED'
         self.filter = ['*.cbp']
         self.path = None  # join(self.app.user_data_dir, 'Chase Bliss Patches')
+        self._set_patch_active = False
 
     def post_app_init(self):
         self.app = App.get_running_app()
@@ -77,7 +78,8 @@ class PresetFile:
                 return
 
     def _set_patch(self, patch):
-        self.preset = patch  # copy to self.preset...
+        self._set_patch_active = True
+        self.preset = patch.copy()  # copy to self.preset...
         self._set_device(self.preset['pedal name'])
         p = self.app.root.ids
         p.cc14.knob_value = self.preset['cc14']
@@ -110,6 +112,7 @@ class PresetFile:
             p.notes.text = self.preset['notes']
         else:
             p.notes.text = ''
+        self._set_patch_active = False
 
     def open(self):
         if not exists(self.path):
@@ -160,11 +163,13 @@ class PresetFile:
             self._get_patch()
             p = json.dumps(self.preset)
             file.write(p)
-            self.app.root.ids.patch_filename.text = self.patch_file
-            self.opened_preset = self.preset.copy()
-            self.update_patch_color()
+        self.app.root.ids.patch_filename.text = self.patch_file
+        self.opened_preset = self.preset.copy()
+        self.update_patch_color()
 
     def update_patch_color(self):
+        if self._set_patch_active:
+            return
         if self.app.root.ids.patch_filename.text != 'UNTITLED':
             self._get_patch()
             changed = not (self.preset == self.opened_preset)
