@@ -67,8 +67,9 @@ warped_vinyl = Pedal(name='Warped Vinyl',
 condor = Pedal(name='Condor',
                cc14='Gain', cc15='Freq', cc16='Volume',
                cc17='Bass', cc18='Mids', cc19='LPF',
-               cc21=('Small', 'Moderate', 'Big'), cc22=('Wide Hump/Scoop', 'More Focused', 'Narrow'),
-               cc23=('Gentle', 'Slightly Resonant', 'Much More Resonant'),
+               cc21=('Bass: Small', 'Bass: Moderate', 'Bass: Big'),
+               cc22=('Mid: Wide Hump/Scoop', 'Mid: More Focused', 'Mid: Narrow'),
+               cc23=('LPF: Gentle', 'LPF: Slightly Resonant', 'LPF: Much More Resonant'),
                left_channel='Drive', right_channel='Pedal',
                logo='condor.png', color=(200/255, 200/255, 200/255))
 
