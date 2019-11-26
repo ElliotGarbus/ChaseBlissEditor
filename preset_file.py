@@ -126,6 +126,7 @@ class PresetFile:
             filechooser.open_file(path=self.path,                   # filters fails on mac
                                   title='Open Patch File',
                                   on_selection=self._open_selection)
+
     def _open_selection(self, selection):
         try:
             self.patch_file = Path(selection[0]).name
@@ -137,7 +138,7 @@ class PresetFile:
             self._set_patch(json.loads(p))
         self.app.root.ids.patch_filename.text = Path(self.patch_file).stem
         self.opened_preset = self.preset.copy()
-        self.update_patch_color()
+        self.app.root.ids.patch_filename.color = [1, 1, 1, 1]  # set patch color white
 
     def save(self):
         if not exists(self.path):
