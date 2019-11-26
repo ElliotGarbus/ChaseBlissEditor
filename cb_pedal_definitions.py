@@ -25,8 +25,10 @@ class Pedal:
     color: Tuple[float, float, float] = (0, 0, 0)
 
 
-total_recall_time_division = ('Qtr', 'Dotted 8th', '8th Triplet', '8th', '8th Sextolets', '16th')
-time_division = ('Whole', 'Half', 'Qtr Triplets', 'Qtr', '8th', '16th')
+total_recall_time_division = ('Note Div: Qtr', 'Note Div: Dotted 8th', 'Note Div: 8th Triplet',
+                              'Note Div: 8th', 'Note Div: 8th Sextolets', 'Note Div: 16th')
+time_division = ('Note Div: Whole', 'Note Div: Half', 'Note Div: Qtr Triplets',
+                 'Note Div: Qtr', 'Note Div: 8th', 'Note Div: 16th')
 
 mood = Pedal(name='Mood',
              cc14='Time', cc15='Mix', cc16='Length',
@@ -39,7 +41,9 @@ mood = Pedal(name='Mood',
 dark_world = Pedal(name='Dark World',
                    cc14='Decay', cc15='Mix', cc16='Dwell',
                    cc17='Modify', cc18='Tone', cc19='Pre-Delay',
-                   cc21=('Mod', 'Shim', 'Black'), cc22=('Parallel', 'D->W', 'W->D'), cc23=('Hall', 'Plate', 'Spring'),
+                   cc21=('Reverb: Mod', 'Reverb: Shim', 'Reverb: Black'),
+                   cc22=('Parallel Routing', 'Serial: D->W', 'Serial: W->D'),
+                   cc23=('Reverb: Hall', 'Reverb: Plate', 'Reverb: Spring'),
                    left_channel='D', right_channel='W',
                    logo='dark world.png', color=(172/255, 180/255, 191/255))
 
@@ -92,8 +96,9 @@ gravitas = Pedal(name='Gravitas',
 generation_loss = Pedal(name='Generation Loss',  # Need to add support for bypass + not tap 2nd stomp.
                         cc14='Wow', cc15='Wet', cc16='HP',
                         cc17='Flutter', cc18='Gen', cc19='LP',
-                        cc21=('Mod', 'Gen', 'Filter'), cc22=('None', 'Small', 'Unity'),
-                        cc23=('None', 'Mild', 'Heavy'),
+                        cc21=('AUX: Mod', 'AUX: Gen', 'AUX: Filter'),
+                        cc22=('Dry: None', 'Dry: Small', 'Dry: Unity'),
+                        cc23=('Hiss: None', 'Hiss: Mild', 'Hiss: Heavy'),
                         left_channel='Aux', right_channel='Pedal',
                         logo='generation loss.png', color=(1/255, 98/255, 156/255))
 
