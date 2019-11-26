@@ -69,7 +69,7 @@ condor = Pedal(name='Condor',
                cc17='Bass', cc18='Mids', cc19='LPF',
                cc21=('Small', 'Moderate', 'Big'), cc22=('Wide Hump/Scoop', 'More Focused', 'Narrow'),
                cc23=('Gentle', 'Slightly Resonant', 'Much More Resonant'),
-               left_channel='Pedal', right_channel='Drive',
+               left_channel='Drive', right_channel='Pedal',
                logo='condor.png', color=(200/255, 200/255, 200/255))
 
 brothers = Pedal(name='Brothers',
@@ -93,7 +93,7 @@ generation_loss = Pedal(name='Generation Loss',  # Need to add support for bypas
                         cc17='Flutter', cc18='Gen', cc19='LP',
                         cc21=('Mod', 'Gen', 'Filter'), cc22=('None', 'Small', 'Unity'),
                         cc23=('None', 'Mild', 'Heavy'),
-                        left_channel='Aux', right_channel='Bypass',
+                        left_channel='Aux', right_channel='Pedal',
                         logo='generation loss.png', color=(1/255, 98/255, 156/255))
 
 wombtome = Pedal(name='Wombtome',
