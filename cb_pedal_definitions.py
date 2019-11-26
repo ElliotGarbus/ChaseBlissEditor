@@ -96,7 +96,7 @@ gravitas = Pedal(name='Gravitas',
 generation_loss = Pedal(name='Generation Loss',  # Need to add support for bypass + not tap 2nd stomp.
                         cc14='Wow', cc15='Wet', cc16='HP',
                         cc17='Flutter', cc18='Gen', cc19='LP',
-                        cc21=('AUX: Mod', 'AUX: Gen', 'AUX: Filter'),
+                        cc21=('Aux: Mod', 'Aux: Gen', 'Aux: Filter'),
                         cc22=('Dry: None', 'Dry: Small', 'Dry: Unity'),
                         cc23=('Hiss: None', 'Hiss: Mild', 'Hiss: Heavy'),
                         left_channel='Aux', right_channel='Pedal',
