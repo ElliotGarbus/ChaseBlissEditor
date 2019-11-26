@@ -107,7 +107,7 @@
                 code = 0 if self.state == 'normal'else 2
                 code += 0 if right_stomp.state == 'normal'else 1
                 app.cb_midi.cc(CC.channel_select, (0, 45, 85, 127)[code])
-                print(f'code: {code}, cc: {(0, 45, 85, 127)[code]}')
+                # print(f'code: {code}, cc: {(0, 45, 85, 127)[code]}')
         Label:
             text: root.text
         ToggleButton:
@@ -117,7 +117,7 @@
                 code = 0 if left_stomp.state == 'normal'else 2
                 code += 0 if self.state == 'normal'else 1
                 app.cb_midi.cc(CC.channel_select, (0, 45, 85, 127)[code])
-                print(f'code: {code}, cc: {(0, 45, 85, 127)[code]}')
+                # print(f'code: {code}, cc: {(0, 45, 85, 127)[code]}')
 
 Editor:
     padding: '10dp'
