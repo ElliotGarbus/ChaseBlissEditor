@@ -4,7 +4,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
 from kivy.properties import ListProperty, StringProperty
 from kivy.clock import Clock
-from kivy.factory import Factory  # imported in kv, inlcude here for Pyinstaller
+from kivy.factory import Factory  # imported in kv, include here for Pyinstaller
 
 from cb_midi import CC
 import cb_pedal_definitions as cb
