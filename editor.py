@@ -21,31 +21,6 @@ class Editor(BoxLayout):
         self.app = App.get_running_app()
         super().__init__(**kwargs)
 
-    def initialize_patch(self):
-        p = self.app.root.ids
-        p.cc14.knob_value = 0
-        p.cc15.knob_value = 0
-        p.cc16.knob_value = 0
-        p.cc17.knob_value = 0
-        p.cc18.knob_value = 0
-        p.cc19.knob_value = 0
-
-        if cb.pedals[self.pedal].cc20 != 'None':
-            p.cc20.knob_value = 0
-
-        p.cc21.text = cb.pedals[self.pedal].cc21[0]
-        if not cb.pedals[self.pedal].cc22_disabled:
-            p.cc22.text = cb.pedals[self.pedal].cc22[0]
-        if not cb.pedals[self.pedal].cc23_disabled:
-            p.cc23.text = cb.pedals[self.pedal].cc23[0]
-
-        if not cb.pedals[self.pedal].tap:
-            p.sm.get_screen('channel_select').ids.left_stomp.state = 'normal'
-            p.sm.get_screen('channel_select').ids.right_stomp.state = 'normal'
-        else:
-            p.sm.get_screen('tap_bpm').ids.bypass_stomp.state = 'down'
-        p.notes.text = ''
-
     def send_all_knobs(self):
         p = self.app.root.ids
         send = self.app.cb_midi.cc
