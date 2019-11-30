@@ -242,8 +242,8 @@ Editor:
             Color:
                 rgb: cb.pedals[root.pedal].color
             Rectangle:
-                size: self.size
-                pos: self.pos
+                size: self.size[0] - 4, self.size[1] - 4
+                pos: self.pos[0] + 2, self.pos[1] + 2
         GridLayout:
             cols: 3
             rows: 3
