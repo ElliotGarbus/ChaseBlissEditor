@@ -146,13 +146,14 @@ Editor:
     padding: '10dp'
     spacing: '10dp'
     BoxLayout: # Left side Controls
+        id: left_panel
         size_hint_x: .4
         padding: '10dp'
         canvas:
             Color:
                 rgb: (1, 1, 1)
             Line:
-                width:dp(2)
+                width: dp(2)
                 rounded_rectangle: (*self.pos,self.width + 2,self.height, 2)
         orientation: 'vertical'
         BoxLayout:
@@ -236,8 +237,8 @@ Editor:
             Color:
                 rgb: (1, 1, 1)
             Line:
-                width:dp(2)
-                rounded_rectangle: (*self.pos,self.width + 2,self.height, 2)
+                width: dp(2)
+                rounded_rectangle: (*self.pos, self.width + 2, self.height, 2)
             Color:
                 rgb: cb.pedals[root.pedal].color
             Rectangle:
