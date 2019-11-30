@@ -14,7 +14,7 @@ _directions = """
 [b]Open/Save File[/b] - ...to computer
 [b]Recall Preset[/b] - Send PC to pedal
 [b]Save Preset to...[/b] - Write to pedal
-[b]Initialize Patch[/b] - Set knobs to zero
+[b]Initialize Patch[/b] - recall init patch
 [b]Send to...[/b] - Send settings to pedal
 
 [b]NOTE:[/b] Changes to the pedal are not reflected in the editor. 

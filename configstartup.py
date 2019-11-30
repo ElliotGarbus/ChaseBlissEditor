@@ -12,7 +12,7 @@ Win10 requires the windows size to be set prior to App being loaded, to draw smo
  
 """
 # Default window size and position, also used to set minimum window size
-window_width = 850
+window_width = 1220
 window_height = 660
 window_top = 100
 window_left = 100

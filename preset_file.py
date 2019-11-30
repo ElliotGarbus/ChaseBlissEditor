@@ -35,10 +35,9 @@ class PresetFile:
         self.path = join(self.app.user_data_dir, 'Chase Bliss Patches')
 
     def initialize_patch(self):
+        self.pedal = cb.pedals[self.app.root.ids.devices.text]
         init_file = Path(self.path) / Path('init_patch_' + self.pedal.name + '.cbp')
-        print(init_file)
         if init_file.exists():
-            print('init file exists')
             self._open_selection([init_file])
         else:
             pup = CreateInitFile()

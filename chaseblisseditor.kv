@@ -189,6 +189,7 @@ Editor:
                 Label:
                     text: 'MIDI Out:'
                 Spinner:
+                    id: midi_select
                     text: 'Select MIDI'
                     values: app.cb_midi.midi_out_names
                     on_text: app.cb_midi.set_midi(self.text)
@@ -206,6 +207,7 @@ Editor:
             BoxLayout:
                 Button:
                     text: 'Recall Preset'
+                    disabled: midi_select.text == 'Select MIDI'
                     on_release: if pc_input.text: app.cb_midi.pc(int(pc_input.text))
                 ProgramChangeInput:
                     id: pc_input
@@ -216,6 +218,7 @@ Editor:
                     padding: ('6dp', (self.height / 2.0) - (self.line_height / 2.0))
             Button:
                 text:'Save Preset to ' + root.pedal
+                disabled: midi_select.text == 'Select MIDI'
                 on_release: Factory.WritePresetDialog(pedal_name=root.pedal, preset_slot=pc_input.text).open()
 
         Label:
@@ -261,12 +264,14 @@ Editor:
                     Button:
                         text:'Initialize Patch'
                         on_release: app.preset_file.initialize_patch()
+                        disabled: midi_select.text == 'Select MIDI'
                     Button:
                         text:'Send to ' + root.pedal
                         shorten: True
                         text_size: self.size
                         valign: 'center'
                         halign: 'center'
+                        disabled: midi_select.text == 'Select MIDI'
                         on_release: root.send_all_knobs()
                 Label:
                     size_hint_x: .2
