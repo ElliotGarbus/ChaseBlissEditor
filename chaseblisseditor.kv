@@ -23,6 +23,29 @@
 <Spinner>
     -font_size: fs
 
+<CreateInitFile>:
+    title: 'Initialization Patch File Created'
+    size_hint: (.5,.5)
+    auto_dismiss: False
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            Label: # spacer
+                size_hint_x: 1
+            Label:
+                id: message
+                size_hint_x: 20
+                text_size: self.size
+                valign: 'middle'
+                halign: 'left'
+                line_height: 1.5
+                font_size: '20sp'
+        Button:
+            size_hint_y: None
+            height: dp(40)
+            text: 'Okay'
+            on_release: root.dismiss()
+
 <FatalErrorPopup>:
     title: 'Fatal MIDI Error'
     size_hint: (.5,.5)
@@ -237,7 +260,7 @@ Editor:
                     orientation: 'vertical'
                     Button:
                         text:'Initialize Patch'
-                        on_release: root.initialize_patch()
+                        on_release: app.preset_file.initialize_patch()
                     Button:
                         text:'Send to ' + root.pedal
                         shorten: True

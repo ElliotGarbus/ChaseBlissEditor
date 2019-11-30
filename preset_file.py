@@ -1,4 +1,5 @@
 from kivy.app import App
+from kivy.uix.popup import Popup
 import cb_pedal_definitions as cb
 from os.path import join, exists
 from os import mkdir
@@ -10,6 +11,10 @@ if platform == 'win':
     import plyer.platforms.win.filechooser  # for pyinstaller
 if platform == 'maxosx':
     import plyer.platforms.macosx.filechooser # for pyinstaller
+
+
+class CreateInitFile(Popup):
+    pass
 
 
 class PresetFile:
@@ -28,6 +33,22 @@ class PresetFile:
         self.app = App.get_running_app()
         self.pedal = cb.pedals[self.app.root.ids.devices.text]
         self.path = join(self.app.user_data_dir, 'Chase Bliss Patches')
+
+    def initialize_patch(self):
+        init_file = Path(self.path) / Path('init_patch_' + self.pedal.name + '.cbp')
+        print(init_file)
+        if init_file.exists():
+            print('init file exists')
+            self._open_selection([init_file])
+        else:
+            pup = CreateInitFile()
+            pup.ids.message.text = 'Save your desired initialization settings to "' + Path(init_file).name + \
+                                   '".\nThe next press of the "Initialize Patch" button will recall this setting.'
+            pup.open()
+            self._save_selection([init_file])
+
+
+
 
     def _get_patch(self):
         p = self.app.root.ids
