@@ -2,7 +2,7 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.popup import Popup
-from kivy.properties import ListProperty, StringProperty
+from kivy.properties import ListProperty, StringProperty, BooleanProperty
 from kivy.clock import Clock
 from kivy.factory import Factory  # imported in kv, include here for Pyinstaller
 
@@ -16,6 +16,7 @@ class Editor(BoxLayout):
     pedal_names = ListProperty([k for k in cb.pedals.keys()])
     pedal = StringProperty('Thermae')
     patch_file = StringProperty('')
+    file_open = BooleanProperty('False') # flag use to distinguish between file open changing the device or the spinner
 
     def __init__(self, **kwargs):
         self.app = App.get_running_app()
