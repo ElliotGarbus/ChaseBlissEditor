@@ -43,7 +43,7 @@
         Button:
             size_hint_y: None
             height: dp(40)
-            text: 'Okay'
+            text: 'OK'
             on_release: root.dismiss()
 
 <FatalErrorPopup>:
@@ -184,6 +184,9 @@ Editor:
                     values: root.pedal_names
                     on_text:
                         root.pedal = self.text
+                        app.preset_file.recall_initial_patch()
+                        patch_filename.text = 'UNTITLED'
+                        patch_filename.color = (1, 1, 1, 1)
                         if cb.pedals[root.pedal].tap: sm.current = 'tap_bpm'
                         if not cb.pedals[root.pedal].tap: sm.current = 'channel_select'
             BoxLayout:
@@ -262,10 +265,32 @@ Editor:
                     size_hint_x: .2
                 BoxLayout:
                     orientation: 'vertical'
-                    Button:
-                        text:'Initialize Patch'
-                        on_release: app.preset_file.initialize_patch()
-                        disabled: midi_select.text == 'Select MIDI'
+                    spacing: dp(4)
+                    BoxLayout
+                        padding: dp(2)
+                        orientation: 'vertical'
+                        canvas:
+                            Color:
+                                rgb: (1, 1, 1)
+                            Line:
+                                rounded_rectangle: (*self.pos, *self.size, 2)
+                        Label:
+                            text: 'Initial Patch'
+                        BoxLayout:
+                            Button:
+                                text:'Create'
+                                size_hint_x: 35
+                                font_size: '15sp'
+                                border: (8,8,8,8)
+                                on_release: app.preset_file.initialize_patch(recall=False)
+                                disabled: midi_select.text == 'Select MIDI'
+                            Button:
+                                text: 'Recall'
+                                size_hint_x: 65
+                                font_size: '15sp'
+                                border: (8,8,8,8)
+                                on_release: app.preset_file.initialize_patch(recall=True)
+                                disabled: midi_select.text == 'Select MIDI'
                     Button:
                         text:'Send to ' + root.pedal
                         shorten: True

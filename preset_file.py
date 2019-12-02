@@ -34,19 +34,24 @@ class PresetFile:
         self.pedal = cb.pedals[self.app.root.ids.devices.text]
         self.path = join(self.app.user_data_dir, 'Chase Bliss Patches')
 
-    def initialize_patch(self):
+    def initialize_patch(self, recall=True):
+        self.pedal = cb.pedals[self.app.root.ids.devices.text]
+        init_file = Path(self.path) / Path('init_patch_' + self.pedal.name + '.cbp')
+        if recall and init_file.exists():
+            self._open_selection([init_file])  # Recall the initialization file
+        else:
+            pup = CreateInitFile()
+            pup.ids.message.text = 'Current settings saved to:  "' + Path(init_file).name + \
+                                   '"\nPress "Recall" to recall this setting\n' + \
+                                   'This setting will be recalled when this device is selected'
+            pup.open()
+            self._save_selection([init_file])
+
+    def recall_initial_patch(self):
         self.pedal = cb.pedals[self.app.root.ids.devices.text]
         init_file = Path(self.path) / Path('init_patch_' + self.pedal.name + '.cbp')
         if init_file.exists():
             self._open_selection([init_file])
-        else:
-            pup = CreateInitFile()
-            pup.ids.message.text = 'Save your desired initialization settings to "' + Path(init_file).name + \
-                                   '".\nThe next press of the "Initialize Patch" button will recall this setting.'
-            pup.open()
-            self._save_selection([init_file])
-
-
 
 
     def _get_patch(self):
