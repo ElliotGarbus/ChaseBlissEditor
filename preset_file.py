@@ -182,7 +182,7 @@ class PresetFile:
 
     def _save_selection(self, selection):
         try:
-            self.patch_file = Path(selection[0]).stem
+            self.patch_file = Path(selection[0]).stem + '.cbp'
         except (ValueError, IndexError):  # The user did not select a file
             return
 
