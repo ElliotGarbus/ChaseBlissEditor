@@ -186,7 +186,7 @@ class PresetFile:
         except (ValueError, IndexError):  # The user did not select a file
             return
 
-        with open(selection[0], 'w') as file:
+        with open(selection[0] + '.cbp', 'w') as file:
             self._get_patch()
             p = json.dumps(self.preset)
             file.write(p)
