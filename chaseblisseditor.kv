@@ -161,7 +161,9 @@ Editor:
             BoxLayout:
                 Button:
                     text: 'Open File'
-                    on_release: app.preset_file.open()
+                    on_release:
+                        app.preset_file.open()
+                        root.file_open = True
                 Button:
                     text: 'Save File'
                     on_release: app.preset_file.save()
@@ -184,7 +186,8 @@ Editor:
                     values: root.pedal_names
                     on_text:
                         root.pedal = self.text
-                        app.preset_file.recall_initial_patch()
+                        if not root.file_open: app.preset_file.recall_initial_patch()
+                        root.file_open = False
                         patch_filename.text = 'UNTITLED'
                         patch_filename.color = (1, 1, 1, 1)
                         if cb.pedals[root.pedal].tap: sm.current = 'tap_bpm'

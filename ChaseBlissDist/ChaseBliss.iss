@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Chase Bliss Editor"
-#define MyAppVersion "V0.3 preview"
+#define MyAppVersion "V0.4 preview"
 #define MyAppExeName "Chase Bliss Editor.exe"
 
 [Setup]
