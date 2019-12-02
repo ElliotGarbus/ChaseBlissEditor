@@ -279,14 +279,12 @@ Editor:
                         BoxLayout:
                             Button:
                                 text:'Create'
-                                size_hint_x: 35
                                 font_size: '15sp'
                                 border: (8,8,8,8)
                                 on_release: app.preset_file.initialize_patch(recall=False)
                                 disabled: midi_select.text == 'Select MIDI'
                             Button:
                                 text: 'Recall'
-                                size_hint_x: 65
                                 font_size: '15sp'
                                 border: (8,8,8,8)
                                 on_release: app.preset_file.initialize_patch(recall=True)

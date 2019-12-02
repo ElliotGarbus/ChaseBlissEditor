@@ -39,6 +39,7 @@ class PresetFile:
         init_file = Path(self.path) / Path('init_patch_' + self.pedal.name + '.cbp')
         if recall and init_file.exists():
             self._open_selection([init_file])  # Recall the initialization file
+            self.app.root.ids.patch_filename.text = 'UNTITLED'
         else:
             pup = CreateInitFile()
             pup.ids.message.text = 'Current settings saved to:  "' + Path(init_file).name + \
@@ -46,13 +47,13 @@ class PresetFile:
                                    'This setting will be recalled when this device is selected'
             pup.open()
             self._save_selection([init_file])
+            self.app.root.ids.patch_filename.text = 'UNTITLED'
 
     def recall_initial_patch(self):
         self.pedal = cb.pedals[self.app.root.ids.devices.text]
         init_file = Path(self.path) / Path('init_patch_' + self.pedal.name + '.cbp')
         if init_file.exists():
             self._open_selection([init_file])
-
 
     def _get_patch(self):
         p = self.app.root.ids
