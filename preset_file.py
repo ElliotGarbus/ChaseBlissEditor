@@ -120,9 +120,15 @@ class PresetFile:
             p.cc20.knob_value = self.preset['cc20']
         if 'cc21' in self.preset:
             p.cc21.text = self.pedal.cc21[self.preset['cc21'] - self.pedal.cc21_offset]
-        if 'cc22' in self.preset:
+
+        if self.pedal.cc22_disabled:
+            p.cc22.text = self.pedal.cc22[0]
+        elif 'cc22' in self.preset:
             p.cc22.text = self.pedal.cc22[self.preset['cc22'] - 1]
-        if 'cc23' in self.preset:
+
+        if self.pedal.cc23_disabled:
+            p.cc23.text = self.pedal.cc23[0]
+        elif 'cc23' in self.preset:
             p.cc23.text = self.pedal.cc23[self.preset['cc23'] - 1]
 
         if 'bpm' in self.preset:
