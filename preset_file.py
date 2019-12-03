@@ -3,6 +3,7 @@ from kivy.uix.popup import Popup
 import cb_pedal_definitions as cb
 from os.path import join, exists
 from os import mkdir
+from copy import deepcopy
 import json
 from kivy.utils import platform
 from pathlib import Path
@@ -163,7 +164,7 @@ class PresetFile:
             p = file.read()
             self._set_patch(json.loads(p))
         self.app.root.ids.patch_filename.text = Path(self.patch_file).stem
-        self.opened_preset = self.preset.copy()
+        self.opened_preset = deepcopy(self.preset)
         self.app.root.ids.patch_filename.color = [1, 1, 1, 1]  # set patch color white
 
     def save(self):
@@ -186,12 +187,12 @@ class PresetFile:
         except (ValueError, IndexError):  # The user did not select a file
             return
 
-        with open(selection[0] + '.cbp', 'w') as file:
+        with open(selection[0], 'w') as file:
             self._get_patch()
             p = json.dumps(self.preset)
             file.write(p)
-        self.app.root.ids.patch_filename.text = self.patch_file
-        self.opened_preset = self.preset.copy()
+        self.app.root.ids.patch_filename.text = Path(self.patch_file).stem
+        self.opened_preset = deepcopy(self.preset)
         self.update_patch_color()
 
     def update_patch_color(self):
