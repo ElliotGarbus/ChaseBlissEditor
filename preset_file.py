@@ -62,20 +62,12 @@ class PresetFile:
         self.preset['cc18'] = p.cc18.knob_value
         self.preset['cc19'] = p.cc19.knob_value
 
-        if self.pedal.cc20 != 'None':  # Ramp knob CC
-            self.preset['cc20'] = p.cc20.knob_value
+        # Ramp knob CC
+        self.preset['cc20'] = p.cc20.knob_value if self.pedal.cc20 != 'None' else 0
 
-        try:
-            self.preset['cc21'] = self.pedal.cc21.index(p.cc21.text) + self.pedal.cc21_offset
-
-            if not self.pedal.cc22_disabled:
-                self.preset['cc22'] = self.pedal.cc22.index(p.cc22.text) + 1
-            if not self.pedal.cc23_disabled:
-                self.preset['cc23'] = self.pedal.cc23.index(p.cc23.text) + 1
-        except ValueError as e:
-            # print(f'Value Error: {e} ')
-            # This exception will only occur when changing devices
-            pass
+        self.preset['cc21'] = self.pedal.cc21.index(p.cc21.text) + self.pedal.cc21_offset
+        self.preset['cc22'] = 0 if self.pedal.cc22_disabled else self.pedal.cc22.index(p.cc22.text) + 1
+        self.preset['cc23'] = 0 if self.pedal.cc23_disabled else self.pedal.cc23.index(p.cc23.text) + 1
 
         if self.pedal.tap and p.sm.get_screen('tap_bpm').ids.bpm_input.text:
             self.preset['bpm'] = p.sm.get_screen('tap_bpm').ids.bpm_input.text
@@ -86,8 +78,8 @@ class PresetFile:
             self.preset['left_stomp'] = p.sm.get_screen('channel_select').ids.left_stomp.state
             self.preset['right_stomp'] = p.sm.get_screen('channel_select').ids.right_stomp.state
 
-        if p.notes.text:
-            self.preset['notes'] = p.notes.text
+        # if p.notes.text:
+        self.preset['notes'] = '' if not p.notes.text else p.notes.text
 
     def _set_device(self, name):
         for key, value in cb.pedals.items():
@@ -109,25 +101,17 @@ class PresetFile:
         p.cc17.knob_value = self.preset['cc17']
         p.cc18.knob_value = self.preset['cc18']
         p.cc19.knob_value = self.preset['cc19']
+        p.cc20.knob_value = self.preset['cc20']   # if 'cc20' in self.preset else 0
 
-        if 'cc20' in self.preset:
-            p.cc20.knob_value = self.preset['cc20']
-        if 'cc21' in self.preset:
-            p.cc21.text = self.pedal.cc21[self.preset['cc21'] - self.pedal.cc21_offset]
-
-        if self.pedal.cc22_disabled:
-            p.cc22.text = self.pedal.cc22[0]
-        elif 'cc22' in self.preset:
-            p.cc22.text = self.pedal.cc22[self.preset['cc22'] - 1]
-
-        if self.pedal.cc23_disabled:
-            p.cc23.text = self.pedal.cc23[0]
-        elif 'cc23' in self.preset:
-            p.cc23.text = self.pedal.cc23[self.preset['cc23'] - 1]
+        p.cc21.text = self.pedal.cc21[self.preset['cc21'] - self.pedal.cc21_offset]
+        p.cc22.text = self.pedal.cc22[0] if self.pedal.cc22_disabled else self.pedal.cc22[self.preset['cc22'] - 1]
+        p.cc23.text = self.pedal.cc23[0] if self.pedal.cc23_disabled else self.pedal.cc23[self.preset['cc23'] - 1]
 
         if 'bpm' in self.preset:
             p.sm.get_screen('tap_bpm').ids.bpm_input.text = self.preset['bpm']
             p.sm.get_screen('tap_bpm').ids.bpm_input.create_tap(None)
+        else:
+            p.sm.get_screen('tap_bpm').ids.bpm_input.text = ''
 
         if 'bypass_stomp' in self.preset:
             p.sm.get_screen('tap_bpm').ids.bypass_stomp.state = self.preset['bypass_stomp']
@@ -135,10 +119,7 @@ class PresetFile:
             p.sm.get_screen('channel_select').ids.left_stomp.state = self.preset['left_stomp']
         if 'right_stomp' in self.preset:
             p.sm.get_screen('channel_select').ids.right_stomp.state = self.preset['right_stomp']
-        if 'notes' in self.preset:
-            p.notes.text = self.preset['notes']
-        else:
-            p.notes.text = ''
+        p.notes.text = self.preset['notes']
         self._set_patch_active = False
 
     def open(self):
