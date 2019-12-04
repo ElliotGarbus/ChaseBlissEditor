@@ -41,7 +41,6 @@ class Editor(BoxLayout):
         if not cb.pedals[self.pedal].cc23_disabled:
             send(CC.cc23, cb.pedals[self.pedal].cc23.index(p.cc23.text) + 1)
 
-
         if not cb.pedals[self.pedal].tap:
             s = self.app.root.ids.sm.get_screen('channel_select').ids
             code = 0 if s.left_stomp.state == 'normal' else 1
