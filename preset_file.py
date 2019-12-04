@@ -188,21 +188,17 @@ class PresetFile:
                                   on_selection=self._save_selection)
 
     def _save_selection(self, selection):
-        try:
-            self.patch_file = Path(selection[0]).stem + '.cbp'
-        except (ValueError, IndexError):  # The user did not select a file
-            return
-# todo: seperate code to create the file name on mac an windows...?
+        if not selection:
+            return      # The user did not select a file
         if Path(selection[0]).suffix == '':
-            filename = selection[0] + '.cbp'
+            filename = selection[0] + '.cbp'  # on Mac the extension is no added automatically, it is on Win10
         else:
             filename = selection[0]
-        print(selection[0])
         with open(filename, 'w') as file:
             self._get_patch()
             p = json.dumps(self.preset)
             file.write(p)
-        self.app.root.ids.patch_filename.text = Path(self.patch_file).stem
+        self.app.root.ids.patch_filename.text = Path(filename).stem
         self.opened_preset = deepcopy(self.preset)
         self.update_patch_color()
 
