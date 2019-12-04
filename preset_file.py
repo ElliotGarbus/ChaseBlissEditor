@@ -161,6 +161,7 @@ class PresetFile:
                                   on_selection=self._open_selection)
 
     def _open_selection(self, selection):
+        # todo update same as _save selection
         try:
             self.patch_file = Path(selection[0]).name
         except (ValueError, IndexError):  # The user did not select a file
