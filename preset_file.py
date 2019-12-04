@@ -192,8 +192,13 @@ class PresetFile:
             self.patch_file = Path(selection[0]).stem + '.cbp'
         except (ValueError, IndexError):  # The user did not select a file
             return
-
-        with open(selection[0], 'w') as file:
+# todo: seperate code to create the file name on mac an windows...?
+        if Path(selection[0]).suffix == '':
+            filename = selection[0] + '.cbp'
+        else:
+            filename = selection[0]
+        print(selection[0])
+        with open(filename, 'w') as file:
             self._get_patch()
             p = json.dumps(self.preset)
             file.write(p)
