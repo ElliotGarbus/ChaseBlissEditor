@@ -23,14 +23,8 @@ class PresetFile:
     def __init__(self):
         self.preset = {}
         self.opened_preset = {}
-        self.app = None  # App.get_running_app()
-        self.pedal = None  # cb.pedals[self.app.root.ids.devices.text]
-        self.patch_file = 'UNTITLED'
         self.filter = ['*.cbp']
-        self.path = None  # join(self.app.user_data_dir, 'Chase Bliss Patches')
         self._set_patch_active = False
-
-    def post_app_init(self):
         self.app = App.get_running_app()
         self.pedal = cb.pedals[self.app.root.ids.devices.text]
         self.path = join(self.app.user_data_dir, 'Chase Bliss Patches')
@@ -161,16 +155,13 @@ class PresetFile:
                                   on_selection=self._open_selection)
 
     def _open_selection(self, selection):
-        # todo update same as _save selection
-        try:
-            self.patch_file = Path(selection[0]).name
-        except (ValueError, IndexError):  # The user did not select a file
+        if not selection:
             return
 
         with open(selection[0], 'r') as file:
             p = file.read()
             self._set_patch(json.loads(p))
-        self.app.root.ids.patch_filename.text = Path(self.patch_file).stem
+        self.app.root.ids.patch_filename.text = Path(selection[0]).stem
         self.opened_preset = deepcopy(self.preset)
         self.app.root.ids.patch_filename.color = [1, 1, 1, 1]  # set patch color white
 
