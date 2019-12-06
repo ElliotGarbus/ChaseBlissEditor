@@ -45,10 +45,36 @@ class PresetFile:
             self.app.root.ids.patch_filename.text = 'UNTITLED'
 
     def recall_initial_patch(self):
+        self._set_patch_active = True
         self.pedal = cb.pedals[self.app.root.ids.devices.text]
         init_file = Path(self.path) / Path('init_patch_' + self.pedal.name + '.cbp')
         if init_file.exists():
             self._open_selection([init_file])
+        else:
+            self._clear_patch()
+        self._set_patch_active = False
+
+    def _clear_patch(self):
+        self._set_patch_active = True
+        p = self.app.root.ids
+        p.cc14.knob_value = 0
+        p.cc15.knob_value = 0
+        p.cc16.knob_value = 0
+        p.cc17.knob_value = 0
+        p.cc18.knob_value = 0
+        p.cc19.knob_value = 0
+        p.cc20.knob_value = 0
+
+        p.cc21.text = self.pedal.cc21[0]
+        p.cc22.text = self.pedal.cc22[0]
+        p.cc23.text = self.pedal.cc23[0]
+
+        p.sm.get_screen('tap_bpm').ids.bpm_input.text = ''
+        p.sm.get_screen('tap_bpm').ids.bypass_stomp.state = 'normal'
+        p.sm.get_screen('channel_select').ids.left_stomp.state = 'normal'
+        p.sm.get_screen('channel_select').ids.right_stomp.state = 'normal'
+        p.notes.text = ''
+        self._set_patch_active = False
 
     def _get_patch(self):
         p = self.app.root.ids
@@ -65,9 +91,13 @@ class PresetFile:
         # Ramp knob CC
         self.preset['cc20'] = p.cc20.knob_value if self.pedal.cc20 != 'None' else 0
 
-        self.preset['cc21'] = self.pedal.cc21.index(p.cc21.text) + self.pedal.cc21_offset
-        self.preset['cc22'] = 0 if self.pedal.cc22_disabled else self.pedal.cc22.index(p.cc22.text) + 1
-        self.preset['cc23'] = 0 if self.pedal.cc23_disabled else self.pedal.cc23.index(p.cc23.text) + 1
+        try:
+            self.preset['cc21'] = self.pedal.cc21.index(p.cc21.text) + self.pedal.cc21_offset
+            self.preset['cc22'] = 0 if self.pedal.cc22_disabled else self.pedal.cc22.index(p.cc22.text) + 1
+            self.preset['cc23'] = 0 if self.pedal.cc23_disabled else self.pedal.cc23.index(p.cc23.text) + 1
+        except ValueError as e:
+            # print(e)
+            pass
 
         if self.pedal.tap and p.sm.get_screen('tap_bpm').ids.bpm_input.text:
             self.preset['bpm'] = p.sm.get_screen('tap_bpm').ids.bpm_input.text
@@ -92,7 +122,7 @@ class PresetFile:
 
     def _set_patch(self, patch):
         self._set_patch_active = True
-        self.preset = patch.copy()  # copy to self.preset...
+        self.preset = deepcopy(patch)  # copy to self.preset...
         self._set_device(self.preset['pedal name'])
         p = self.app.root.ids
         p.cc14.knob_value = self.preset['cc14']

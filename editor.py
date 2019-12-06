@@ -16,7 +16,7 @@ class Editor(BoxLayout):
     pedal_names = ListProperty([k for k in cb.pedals.keys()])
     pedal = StringProperty('Thermae')
     patch_file = StringProperty('')
-    file_open = BooleanProperty('False') # flag use to distinguish between file open changing the device or the spinner
+    file_open = BooleanProperty('False')  # flag use to distinguish between file open changing the device or the spinner
 
     def __init__(self, **kwargs):
         self.app = App.get_running_app()
