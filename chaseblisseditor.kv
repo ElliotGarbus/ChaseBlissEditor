@@ -211,6 +211,7 @@ Editor:
                 Label:
                     text: 'MIDI Ch:'
                 Spinner:
+                    id: midi_channel
                     text: '2'
                     values: [str(x) for x in range(1, 17)]
                     on_text: app.cb_midi.midi_channel = int(self.text) - 1
