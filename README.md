@@ -1,4 +1,5 @@
 # ChaseBlissEditor
-A prototype editor for Chase Bliss Effects Pedals
+An editor for Chase Bliss Effects Pedals
 
-Key functionality not yet in place.
+# Download at the release page:
+https://github.com/ElliotGarbus/ChaseBlissEditor/releases
