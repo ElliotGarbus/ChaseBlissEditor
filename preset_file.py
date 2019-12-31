@@ -23,14 +23,9 @@ class PresetFile:
     def __init__(self):
         self.preset = {}
         self.opened_preset = {}
-        self.app = None  # App.get_running_app()
-        self.pedal = None  # cb.pedals[self.app.root.ids.devices.text]
         self.patch_file = 'UNTITLED'
         self.filter = ['*.cbp']
-        self.path = None  # join(self.app.user_data_dir, 'Chase Bliss Patches')
         self._set_patch_active = False
-
-    def post_app_init(self):
         self.app = App.get_running_app()
         self.pedal = cb.pedals[self.app.root.ids.devices.text]
         self.path = join(self.app.user_data_dir, 'Chase Bliss Patches')

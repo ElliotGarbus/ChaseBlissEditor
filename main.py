@@ -23,7 +23,7 @@ _directions = """
 
 class ChaseBlissEditorApp(App):
     cb_midi = ChaseBlissMidi()
-    preset_file = PresetFile()
+    preset_file = None
     directions = _directions
 
     def build_config(self, config):
@@ -49,7 +49,7 @@ class ChaseBlissEditorApp(App):
         Window.minimum_height = window_height
         self.use_kivy_settings = False
         Window.bind(on_request_close=self.window_request_close)
-        self.preset_file.post_app_init()
+        self.preset_file = PresetFile()
 
     def window_request_close(self, _):
         # Window.size is automatically adjusted for density, must divide by density when saving size
