@@ -118,6 +118,13 @@ ayahuasca = Pedal(name='Ayahuasca',
                  cc22=('NA',), cc23=('NA',), tap=True,
                  logo='Images/ayahuasca.png', color=(121/255, 68/255, 9/255))
 
+warped_vinyl_mkii = Pedal(name='Warped Vinyl MKII',
+                     cc14='Tone', cc15='Volume', cc16='Mix',
+                     cc17='RPM', cc18='Depth', cc19='Warp',
+                     cc20='Ramp', cc21_offset=0, cc22_disabled=True, cc23_disabled=True,
+                     cc21=time_division, cc22=('NA',), cc23=('NA',), tap=True,
+                     logo='Images/warped vinyl mkII.png', color=(209/255, 209/255, 209/255))
+
 pedals = {'Ayahuasca': ayahuasca,
           'Brothers': brothers,
           'Condor': condor,
@@ -128,5 +135,6 @@ pedals = {'Ayahuasca': ayahuasca,
           'Thermae': thermae,
           'Tonal Recall': tonal_recall,
           'Warped Vinyl': warped_vinyl,
+          'Warped Vinyl MKII': warped_vinyl_mkii,
           'Wombtome': wombtome,
           }
