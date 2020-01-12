@@ -58,11 +58,19 @@ class ChaseBlissMidi:
 
     def set_midi(self, output_port: str):
         self.close_ports()
-        try:
-            self.to_cb = mido.open_output(output_port)
-        except RuntimeError as e:
-            Logger.exception(f'APPLICATION: set_midi(): {e}')
-            self.fatal_error('MIDI Failure: Run "Audio MIDI Setup"')
+        ports = self.get_midi_ports()
+        if output_port not in ports:    # User turn an interface design on or off
+            app = App.get_running_app()
+            app.root.ids.midi_select.values = ['Select MIDI'] + ports  # reset midi list
+        else:
+            try:
+                self.to_cb = mido.open_output(output_port)
+            except RuntimeError as e:
+                Logger.exception(f'APPLICATION: set_midi(): {e}')
+                self.fatal_error('MIDI Failure: Run "Audio MIDI Setup"')
+            except OSError as e:
+                Logger.exception(f'APPLICATION: set_midi(): {e}')
+                self.fatal_error(str(e))
 
     def pc(self, preset: int):
         if self.to_cb:

@@ -83,6 +83,7 @@ class ChaseBlissEditorApp(App):
         self.root.ids.midi_select.text = config.getdefault('MIDI', 'interface', '2')
         self.root.ids.midi_channel.text = config.getdefault('MIDI', 'channel', 'Select MIDI')
         self.root.ids.devices.text = config.getdefault('ChaseBlissPedal', 'device', 'Thermae')
+        self.cb_midi.set_midi(self.root.ids.midi_select.text)
 
         Clock.schedule_interval(self.cb_midi.xmit_midi_callback, .150)
 
