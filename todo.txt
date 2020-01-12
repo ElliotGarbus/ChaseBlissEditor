@@ -3,7 +3,7 @@ Done: Add donate button
 add donate link to release page
 
 Pedals to add:
-Warped Vinyl Mark II
+Done: Warped Vinyl Mark II
 Done: AYAHUASCA see: http://abracadabraaudio.com/
     (i.e. you could use a Gravitas template to control the Ayahuasca,
     but instead of the Gravitas "Tone" knob it would be the Ayahuasca's "Color"
