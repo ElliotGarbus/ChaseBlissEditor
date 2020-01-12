@@ -23,6 +23,7 @@ class PresetFile:
     def __init__(self):
         self.preset = {}
         self.opened_preset = {}
+        self.patch_file = 'UNTITLED'
         self.filter = ['*.cbp']
         self._set_patch_active = False
         self.app = App.get_running_app()
