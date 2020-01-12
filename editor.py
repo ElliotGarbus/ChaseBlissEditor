@@ -82,6 +82,10 @@ class TapTextInput(TextInput):
         Clock.schedule_once(self.create_tap, .02)
         return super().on_text_validate()
 
+    def on_focus(self, instance, value):
+        if not value:  # focus has been lost, validate the input
+            self.on_text_validate()
+
 
 class ProgramChangeInput(TextInput):
     def insert_text(self, substring, from_undo=False):
