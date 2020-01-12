@@ -23,7 +23,6 @@ _directions = """
 
 class ChaseBlissEditorApp(App):
     cb_midi = ChaseBlissMidi()
-    preset_file = None
     preset_file = None   # PresetFile() created in build
     directions = _directions
 
