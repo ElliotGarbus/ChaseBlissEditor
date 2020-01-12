@@ -116,7 +116,7 @@ ayahuasca = Pedal(name='Ayahuasca',
                  cc20='Ramp', cc21_offset=0,
                  cc22_disabled=True, cc23_disabled=True, cc21=time_division,
                  cc22=('NA',), cc23=('NA',), tap=True,
-                 logo='Images/ayahuasca.png', color=(121/255, 76/255, 9/255))
+                 logo='Images/ayahuasca.png', color=(121/255, 68/255, 9/255))
 
 pedals = {'Ayahuasca': ayahuasca,
           'Brothers': brothers,
