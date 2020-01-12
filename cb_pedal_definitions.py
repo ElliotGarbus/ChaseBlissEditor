@@ -110,7 +110,16 @@ wombtome = Pedal(name='Wombtome',
                  cc22=('NA',), cc23=('NA',), tap=True,
                  logo='Images/wombtone.png', color=(141/255, 1/255, 29/255))
 
-pedals = {'Brothers': brothers,
+ayahuasca = Pedal(name='Ayahuasca',
+                 cc14='Drive', cc15='Volume', cc16='Color',
+                 cc17='Rate',  cc18='Depth', cc19='Sway',
+                 cc20='Ramp', cc21_offset=0,
+                 cc22_disabled=True, cc23_disabled=True, cc21=time_division,
+                 cc22=('NA',), cc23=('NA',), tap=True,
+                 logo='Images/ayahuasca.png', color=(121/255, 76/255, 9/255))
+
+pedals = {'Ayahuasca': ayahuasca,
+          'Brothers': brothers,
           'Condor': condor,
           'Dark World': dark_world,
           'Gen. Loss': generation_loss,
