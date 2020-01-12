@@ -5,8 +5,11 @@
 #: import CC cb_midi.CC
 #: import PresetFile preset_file.PresetFile
 #: import Factory kivy.factory.Factory
+#: import webbrowser webbrowser
+#: set paypal_site 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7JWFZQUM4CJRJ&source=url'
 #: set white [1, 1, 1, 1]
 #: set fs '20dp'
+
 
 <CircleKnob>
     -arc_background: [.3, .3, .3, 1]
@@ -239,6 +242,10 @@ Editor:
             text_size: self.size
             valign: 'top'
             text: app.directions
+        Button:
+            size_hint_y: .07
+            text: 'Donate'
+            on_release: webbrowser.open(paypal_site)
 
     BoxLayout: # Right Side Controls
         orientation: 'vertical'
