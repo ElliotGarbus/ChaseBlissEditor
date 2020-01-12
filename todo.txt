@@ -1,5 +1,6 @@
 Done: On start load init patch if available
-Add donate button, and add donate link to release page
+Done: Add donate button
+add donate link to release page
 
 Pedals to add:
 Warped Vinyl Mark II
