@@ -24,6 +24,7 @@ _directions = """
 class ChaseBlissEditorApp(App):
     cb_midi = ChaseBlissMidi()
     preset_file = None
+    preset_file = None   # PresetFile() created in build
     directions = _directions
 
     def build_config(self, config):
@@ -31,6 +32,9 @@ class ChaseBlissEditorApp(App):
                                       'height': window_height})
         config.setdefaults('Window', {'top': window_top,
                                       'left': window_left})
+        config.setdefaults('MIDI', {'interface': 'Select MIDI',
+                                    'channel': '2'})
+        config.setdefaults('ChaseBlissPedal', {'device': 'Thermae'})
 
     def open_settings(self, *largs):
         pass
@@ -43,7 +47,7 @@ class ChaseBlissEditorApp(App):
         return super().get_application_config(defaultpath=s)
 
     def build(self):
-        self.title = 'Chase Bliss Editor V0.4'
+        self.title = 'Chase Bliss Editor V0.6'
         self.icon = 'cb_64.png'
         Window.minimum_width = window_width
         Window.minimum_height = window_height
@@ -58,6 +62,14 @@ class ChaseBlissEditorApp(App):
         config.set('Window', 'height', int(Window.size[1] / Metrics.density))
         config.set('Window', 'top', Window.top)
         config.set('Window', 'left', Window.left)
+
+        midi_interface = self.root.ids.midi_select.text
+        midi_channel = self.root.ids.midi_channel.text
+        chase_bliss_pedal = self.root.ids.devices.text
+
+        config.set('MIDI', 'interface', midi_interface)
+        config.set('MIDI', 'channel', midi_channel)
+        config.set('ChaseBlissPedal', 'device', chase_bliss_pedal)
         return False
 
     def on_start(self):
@@ -68,6 +80,11 @@ class ChaseBlissEditorApp(App):
         Window.size = (int(width), int(height))
         Window.top = int(float(config.getdefault('Window', 'top', window_top)))
         Window.left = int(float(config.getdefault('Window', 'left', window_left)))
+
+        self.root.ids.midi_select.text = config.getdefault('MIDI', 'interface', '2')
+        self.root.ids.midi_channel.text = config.getdefault('MIDI', 'channel', 'Select MIDI')
+        self.root.ids.devices.text = config.getdefault('ChaseBlissPedal', 'device', 'Thermae')
+
         Clock.schedule_interval(self.cb_midi.xmit_midi_callback, .150)
 
     def on_stop(self):

@@ -16,7 +16,7 @@ class Editor(BoxLayout):
     pedal_names = ListProperty([k for k in cb.pedals.keys()])
     pedal = StringProperty('Thermae')
     patch_file = StringProperty('')
-    file_open = BooleanProperty('False') # flag use to distinguish between file open changing the device or the spinner
+    file_open = BooleanProperty('False')  # flag use to distinguish between file open changing the device or the spinner
 
     def __init__(self, **kwargs):
         self.app = App.get_running_app()
@@ -40,7 +40,6 @@ class Editor(BoxLayout):
             send(CC.cc22, cb.pedals[self.pedal].cc22.index(p.cc22.text) + 1)
         if not cb.pedals[self.pedal].cc23_disabled:
             send(CC.cc23, cb.pedals[self.pedal].cc23.index(p.cc23.text) + 1)
-
 
         if not cb.pedals[self.pedal].tap:
             s = self.app.root.ids.sm.get_screen('channel_select').ids
