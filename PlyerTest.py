@@ -1,3 +1,5 @@
+# Not part of the project, a simple test to evaluate the plyer filechooser
+
 from pathlib import Path
 
 from kivy.app import App
