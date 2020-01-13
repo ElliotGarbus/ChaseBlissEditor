@@ -5,13 +5,13 @@ import os
 spec_root = os.path.abspath(SPECPATH)
 block_cipher = None
 app_name = 'ChaseBlissEditor'
-mac_icon = '../cb_256.icns'
+mac_icon = '../Images/cb_256.icns'
 
 
 a = Analysis(['../main.py'],
              pathex=[spec_root],
              binaries=[],
-             datas=[('../*.kv', '.'), ('../*.png', '.')],
+             datas=[('../*.kv', '.'), ('../Images/*.png', './Images')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
