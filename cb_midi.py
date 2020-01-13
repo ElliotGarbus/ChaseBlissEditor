@@ -7,6 +7,8 @@ from kivy.logger import Logger
 
 from enum import Enum
 from collections import deque
+import sys
+import rtmidi
 
 
 class CC(Enum):
@@ -46,10 +48,14 @@ class ChaseBlissMidi:
     def get_midi_ports(self):
         try:
             ports = mido.get_output_names()
-        except (RuntimeError, SystemError) as e:
+            return ports
+        except (RuntimeError, SystemError, rtmidi._rtmidi.SystemError) as e:
             Logger.exception(f'APPLICATION: get_midi_ports(): {e}')
             self.fatal_error('MIDI Failure: Run "Audio MIDI Setup"')
-        return ports
+        except:
+            print("Unexpected error:", sys.exc_info()[0])
+            self.fatal_error('MIDI Failure: Run "Audio MIDI Setup"')
+
 
     def close_ports(self):
         if self.to_cb:
@@ -59,8 +65,10 @@ class ChaseBlissMidi:
     def set_midi(self, output_port: str):
         self.close_ports()
         ports = self.get_midi_ports()
-        if output_port not in ports:    # User turn an interface design on or off
-            app = App.get_running_app()
+        app = App.get_running_app()
+        if not ports:
+            app.root.ids.midi_select.values = ['Select MIDI']
+        elif output_port not in ports:    # User turn an interface design on or off
             app.root.ids.midi_select.values = ['Select MIDI'] + ports  # reset midi list
         else:
             try:
