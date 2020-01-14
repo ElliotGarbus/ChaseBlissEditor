@@ -2,22 +2,26 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Chase Bliss Editor"
-#define MyAppVersion "V0.5 preview"
+#define MyAppVersion "1.0"
+#define MyAppPublisher "Elliot Garbus Ventures, LLC"
 #define MyAppExeName "Chase Bliss Editor.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{2C1829CD-1CC9-4705-B3A1-2E051D6F5694}
+AppId={{05BEE1E4-1E0A-4D5A-AD1E-E1BD6AF046D3}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
+AppPublisher={#MyAppPublisher}
 DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
+LicenseFile=C:\Users\ellio\PycharmProjects\ChaseBlissEditor\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir=C:\Users\ellio\PycharmProjects\ChaseBlissEditor\ChaseBlissDist\Output
-OutputBaseFilename=ChaseBliss_Windows_install
+OutputBaseFilename=ChaseBlissEditor_Windows_install
+SetupIconFile=C:\Users\ellio\PycharmProjects\ChaseBlissEditor\Images\cb_icon.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
