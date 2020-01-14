@@ -49,7 +49,7 @@ class ChaseBlissMidi:
         try:
             ports = mido.get_output_names()
             return ports
-        except (RuntimeError, SystemError, rtmidi._rtmidi.SystemError) as e:
+        except (RuntimeError, SystemError) as e:
             Logger.exception(f'APPLICATION: get_midi_ports(): {e}')
             self.fatal_error('MIDI Failure: Run "Audio MIDI Setup"')
         except:
