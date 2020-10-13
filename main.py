@@ -46,7 +46,7 @@ class ChaseBlissEditorApp(App):
         return super().get_application_config(defaultpath=s)
 
     def build(self):
-        self.title = 'Chase Bliss Editor V1.0'
+        self.title = 'Chase Bliss Editor V1.01'
         self.icon = 'Images/cb_64.png'
         Window.minimum_width = window_width
         Window.minimum_height = window_height

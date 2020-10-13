@@ -1,5 +1,7 @@
 from kivy.app import App
 from kivy.uix.popup import Popup
+from kivy.factory import Factory
+
 import cb_pedal_definitions as cb
 from os.path import join, exists
 from os import mkdir
@@ -7,11 +9,12 @@ from copy import deepcopy
 import json
 from kivy.utils import platform
 from pathlib import Path
-from plyer import filechooser
-if platform == 'win':
-    import plyer.platforms.win.filechooser  # for pyinstaller
-if platform == 'maxosx':
-    import plyer.platforms.macosx.filechooser # for pyinstaller
+# from plyer import filechooser
+# if platform == 'win':
+#     import plyer.platforms.win.filechooser  # for pyinstaller
+# if platform == 'maxosx':
+#     import plyer.platforms.macosx.filechooser # for pyinstaller
+from filebrowser import SaveDialog, LoadDialog
 
 
 class CreateInitFile(Popup):
@@ -156,15 +159,8 @@ class PresetFile:
     def open(self):
         if not exists(self.path):
             mkdir(self.path)
-        file_name = self.app.root.ids.patch_filename.text + '.cbp'
-        if platform == 'win':
-            filechooser.open_file(path=join(self.path, file_name), filters=self.filter,
-                                  title='Open Patch File',
-                                  on_selection=self._open_selection)
-        if platform == 'macosx':
-            filechooser.open_file(path=self.path,                   # filters fails on mac
-                                  title='Open Patch File',
-                                  on_selection=self._open_selection)
+        Factory.LoadDialog(path=self.path, filters=self.filter,
+                           title='Open Patch File', action=self._open_selection).open()
 
     def _open_selection(self, selection):
         if not selection:
@@ -181,23 +177,16 @@ class PresetFile:
         if not exists(self.path):
             mkdir(self.path)
         file_name = self.app.root.ids.patch_filename.text + '.cbp'
-        if platform == 'win':
-            filechooser.save_file(path=join(self.path, file_name),
-                                  filters=self.filter, title='Save the Patch',
-                                  on_selection=self._save_selection)
+        Factory.SaveDialog(path=self.path, filename=file_name,
+                           filters=self.filter, title='Save the Patch',
+                           action=self._save_selection).open()
 
-        if platform == 'macosx':
-            filechooser.save_file(path=self.path,
-                                  title='Save the Patch',
-                                  on_selection=self._save_selection)
-
-    def _save_selection(self, selection):
-        if not selection:
+    def _save_selection(self, filename, path):
+        if not filename:
             return      # The user did not select a file
-        if Path(selection[0]).suffix == '':
-            filename = selection[0] + '.cbp'  # on Mac the extension is no added automatically, it is on Win10
-        else:
-            filename = selection[0]
+        if Path(filename).suffix == '':
+            filename = filename + '.cbp'
+        filename = Path(path) / filename
         with open(filename, 'w') as file:
             self._get_patch()
             p = json.dumps(self.preset)
