@@ -7,13 +7,7 @@ from os.path import join, exists
 from os import mkdir
 from copy import deepcopy
 import json
-from kivy.utils import platform
 from pathlib import Path
-# from plyer import filechooser
-# if platform == 'win':
-#     import plyer.platforms.win.filechooser  # for pyinstaller
-# if platform == 'maxosx':
-#     import plyer.platforms.macosx.filechooser # for pyinstaller
 from filebrowser import SaveDialog, LoadDialog
 
 
