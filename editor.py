@@ -75,6 +75,9 @@ class TapTextInput(TextInput):
         return super().insert_text(s, from_undo=from_undo)
 
     def on_text_validate(self):
+        if not self.text:
+            self.text = ''
+            return super().on_text_validate()
         if int(self.text) < 50:
             self.text = '50'
         if int(self.text) > 240:

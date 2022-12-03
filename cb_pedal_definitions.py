@@ -1,7 +1,11 @@
 from dataclasses import dataclass
 from typing import Sequence, Tuple
 
-
+"""
+Definitions:
+cc21_offset - some devices start CC21 at 0 others at 1, for pedals that start at 0, set offset to 0, defaults to 1
+tap - enables/disables the tap switch
+"""
 @dataclass
 class Pedal:
     name: str
@@ -125,12 +129,22 @@ warped_vinyl_mkii = Pedal(name='Warped Vinyl MKII',
                      cc21=time_division, cc22=('NA',), cc23=('NA',), tap=True,
                      logo='Images/warped vinyl mkII.png', color=(209/255, 209/255, 209/255))
 
+habit = Pedal(name='Habit',
+                     cc14='Volume', cc15='Repeats', cc16='Size',
+                     cc17='Mod', cc18='Spread', cc19='Scan', cc20='Ramp',
+                     cc21=('1', '2', '3'),
+                     cc22=('A', 'Off', 'B'),
+                     cc23=('In', 'Out', 'Feed'),
+                     left_channel='Hold', right_channel='Pedal', tap=True,
+                     logo='Images/habit.png', color=(243/255, 197/255, 59/255))
+
 pedals = {'Ayahuasca': ayahuasca,
           'Brothers': brothers,
           'Condor': condor,
           'Dark World': dark_world,
           'Gen. Loss': generation_loss,
           'Gravitas': gravitas,
+          'Habit': habit,
           'Mood': mood,
           'Thermae': thermae,
           'Tonal Recall': tonal_recall,
